@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Figtree, Fraunces } from "next/font/google";
-import { AuthProvider } from "@/lib/auth/provider";
-import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { SITE_NAME, SITE_URL } from "@/lib/site-config";
 import "./globals.css";
 
@@ -27,20 +25,13 @@ export const metadata: Metadata = {
     "Shoreline Cleaning LLC provides residential and commercial cleaning for the 757 and surrounding Hampton Roads communities.",
   icons: {
     icon: "/favicon.svg",
-    apple: "/__grok/icon-180.png",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${figtree.variable} ${fraunces.variable} antialiased`}>
-      <head>
-        <link rel="manifest" href="/__grok/manifest.webmanifest" />
-      </head>
-      <body className="min-h-screen bg-foam font-sans text-ink">
-        <PreviewHostBridge />
-        <AuthProvider>{children}</AuthProvider>
-      </body>
+      <body className="min-h-screen bg-foam font-sans text-ink">{children}</body>
     </html>
   );
 }
