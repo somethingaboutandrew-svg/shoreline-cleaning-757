@@ -9,7 +9,7 @@ import { FaqList } from "@/components/site/faq-list";
 import { ReviewCard } from "@/components/site/review-card";
 import { ServiceCard } from "@/components/site/service-card";
 import { Button } from "@/components/ui/button";
-import { ContactLinks } from "@/components/site/contact-links";
+import { PUBLIC_EMAIL } from "@/lib/site-config";
 import {
   getBeforeAfter,
   getFaqs,
@@ -18,7 +18,6 @@ import {
   getServices,
   getSettings,
 } from "@/lib/content";
-import { telHref, smsHref } from "@/lib/placeholders";
 import { buildMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,7 +38,6 @@ export default async function HomePage() {
   const homeReviews = reviews.filter((r) => r.showOnHomepage);
   const homeFaqs = faqs.slice(0, 4);
   const pair = pairs.find((p) => p.id === home.featuredBeforeAfterId) ?? pairs[0];
-  const secondaryHref = telHref(settings.phone) || smsHref(settings.textNumber) || "/contact";
 
   return (
     <>
@@ -64,11 +62,8 @@ export default async function HomePage() {
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-sky sm:text-lg">{home.heroSubheadline}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="min-w-[13.5rem] justify-center text-center">
                 <Link href="/contact">{home.heroPrimaryCta}</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href={secondaryHref}>{home.heroSecondaryCta}</Link>
               </Button>
             </div>
           </div>
@@ -85,9 +80,7 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-xs text-muted">
-            These are marketing highlights, not certifications or guarantees.
-          </p>
+          <p className="mt-4 text-xs text-muted">These are marketing highlights, not certifications or guarantees.</p>
         </Container>
       </Section>
 
@@ -99,7 +92,7 @@ export default async function HomePage() {
             <p className="mt-4 text-base leading-relaxed text-muted">{home.introBody}</p>
             <div className="mt-6">
               <Button asChild variant="navy">
-                <Link href="/about">About the company</Link>
+                <Link href="/about">About Us</Link>
               </Button>
             </div>
           </div>
@@ -120,15 +113,13 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-3xl sm:text-4xl">Featured services</h2>
-              <p className="mt-2 max-w-xl text-muted">
-                Every service is quoted after a short intake — no prices on this site.
-              </p>
+              <p className="mt-2 max-w-xl text-muted">Every service is quoted after a short intake.</p>
             </div>
             <Link href="/services" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-navy">
               All services <ArrowRight className="size-4" />
             </Link>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((service) => (
               <ServiceCard key={service.slug} service={service} />
             ))}
@@ -185,9 +176,7 @@ export default async function HomePage() {
               All reviews →
             </Link>
           </div>
-          <p className="mt-2 text-sm text-muted">
-            Sample reviews are labeled. Replace them with real customer quotes in Sanity.
-          </p>
+          <p className="mt-2 text-sm text-muted">Sample reviews are labeled.</p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {homeReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
@@ -208,10 +197,15 @@ export default async function HomePage() {
           <div className="rounded-[20px] bg-sky-soft p-6">
             <p className="font-display text-2xl text-navy">{settings.serviceAreaLine}</p>
             <p className="mt-3 text-sm text-muted">
-              Specific cities will be listed once they are added in the CMS. Until then, request a quote and we'll
-              tell you if we can help.
+              Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, Williamsburg, Elizabeth City, and
+              Moyock.
             </p>
-            <ContactLinks settings={settings} className="mt-6" />
+            <p className="mt-4 text-sm text-navy">
+              Email:{" "}
+              <a className="text-aqua hover:underline" href={`mailto:${PUBLIC_EMAIL}`}>
+                {PUBLIC_EMAIL}
+              </a>
+            </p>
           </div>
         </Container>
       </Section>
