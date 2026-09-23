@@ -20,10 +20,6 @@ export default async function ServiceAreasPage() {
           {page.areas.length === 0 ? (
             <div className="rounded-[20px] bg-white p-6 shadow-card">
               <p className="font-medium text-navy">No specific cities listed yet.</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                Cities and communities will appear here after they are added in Sanity. Until then we use: serving the
-                757 and surrounding Hampton Roads communities.
-              </p>
             </div>
           ) : (
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -35,17 +31,20 @@ export default async function ServiceAreasPage() {
               ))}
             </ul>
           )}
-          {page.mapEmbedHtml ? (
-            <div className="mt-10 overflow-hidden rounded-[20px] shadow-card" dangerouslySetInnerHTML={{ __html: page.mapEmbedHtml }} />
-          ) : (
-            <p className="mt-8 text-sm text-muted">Map embed is hidden until a map URL or embed is added in Sanity.</p>
-          )}
+          <figure className="mt-10 overflow-hidden rounded-[20px] bg-white shadow-card">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/service-area-map.svg"
+              alt="Map of Hampton Roads and nearby North Carolina towns served by Shoreline Cleaning LLC, with pins on Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, Williamsburg, Elizabeth City, and Moyock"
+              className="h-auto w-full"
+            />
+          </figure>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted">{page.outsideAreaNote}</p>
         </Container>
       </Section>
       <CtaBanner
         heading="Not sure if we reach you?"
-        body="Request a quote with your city or ZIP. We'll tell you whether we can help."
+        body="Simply fill out our intake form and when we discuss via call, text or email, we can determine if our company is a good fit for your needs!"
       />
     </>
   );

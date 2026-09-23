@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     seo: {
       title: "Cleaning Services | Shoreline Cleaning LLC",
       description:
-        "Residential and commercial cleaning services from Shoreline Cleaning LLC in the 757. Quotes after a short intake — no prices listed online.",
+        "Deep cleaning, post move-out, recurring, commercial, and short-term rental turnover cleaning from Shoreline Cleaning LLC in the 757.",
     },
     path: "/services",
     settings,
@@ -25,8 +25,8 @@ export default async function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        heading="Residential and commercial cleaning, quoted for your space"
-        body="Browse the services we currently list. Each one can be added, removed, or unpublished in Sanity. There are no prices on this website — send an intake and we'll follow up by call, text, or email."
+        heading="Cleaning services quoted for your space"
+        body="These are the services we provide. There are no prices on this website — send an intake and we'll follow up by call, text, or email."
       />
       <Section>
         <Container>

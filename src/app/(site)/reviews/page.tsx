@@ -3,6 +3,8 @@ import { Container, Section } from "@/components/site/container";
 import { CtaBanner } from "@/components/site/cta-banner";
 import { PageHero } from "@/components/site/page-hero";
 import { ReviewCard } from "@/components/site/review-card";
+import { TestimonialForm } from "@/components/site/testimonial-form";
+import { GOOGLE_REVIEW_URL } from "@/lib/site-config";
 import { getReviews, getSettings } from "@/lib/content";
 import { httpHref } from "@/lib/placeholders";
 import { buildMetadata } from "@/lib/seo";
@@ -13,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     seo: {
       title: "Reviews | Shoreline Cleaning LLC",
       description:
-        "Customer reviews for Shoreline Cleaning LLC. Sample quotes are labeled until real reviews are added in Sanity.",
+        "Customer reviews for Shoreline Cleaning LLC. Sample quotes are labeled until real reviews are added.",
     },
     path: "/reviews",
     settings,
@@ -22,31 +24,25 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ReviewsPage() {
   const [reviews, settings] = await Promise.all([getReviews(), getSettings()]);
-  const google = httpHref(settings.googleReviewUrl);
+  const google = httpHref(settings.googleReviewUrl) || GOOGLE_REVIEW_URL;
   return (
     <>
       <PageHero
         eyebrow="Reviews"
         heading="What customers say"
-        body="These quotes live in Sanity. Sample reviews are clearly labeled and should be replaced with real customer feedback. This page does not display a Google star rating or review count."
+        body="Sample reviews are clearly labeled. When a client submits a new testimonial, we review it before it appears here."
       />
       <Section>
-        <Container>
-          {google ? (
-            <a
-              href={google}
-              target="_blank"
-              rel="noreferrer"
-              className="mb-8 inline-flex min-h-12 items-center justify-center rounded-full bg-navy px-6 text-sm font-medium text-white"
-            >
-              {settings.googleReviewButtonLabel}
-            </a>
-          ) : (
-            <p className="mb-8 rounded-[16px] bg-sky-soft px-4 py-3 text-sm text-navy">
-              Google review button: add your Google Business Profile URL in Site Settings to enable “
-              {settings.googleReviewButtonLabel}”.
-            </p>
-          )}
+        <Container className="space-y-10">
+          <a
+            href={google}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-navy px-6 text-center text-sm font-semibold uppercase tracking-wide text-white"
+          >
+            CLICK HERE TO LEAVE A GOOGLE REVIEW!
+          </a>
+          <TestimonialForm />
           {reviews.length === 0 ? (
             <p className="text-muted">No reviews published yet.</p>
           ) : (
@@ -58,10 +54,7 @@ export default async function ReviewsPage() {
           )}
         </Container>
       </Section>
-      <CtaBanner
-        heading="Have a space that needs a reset?"
-        body="Request a quote. We'll follow up by call, text, or email."
-      />
+      <CtaBanner heading="Have a space that needs a reset?" body="Request a quote. We'll follow up by call, text, or email." />
     </>
   );
 }
