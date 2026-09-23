@@ -4,13 +4,11 @@ const TOKEN = process.env.SANITY_API_WRITE_TOKEN;
 const SITE = "https://www.shorelinecleaning757.com";
 const API = `https://${PROJECT}.api.sanity.io/v2026-09-01`;
 
-if (!TOKEN) {
-  console.log("SANITY_API_WRITE_TOKEN is not set. Skipping Studio seed.");
-  process.exit(0);
-}
-
-const headers = {
-  Authorization: `Bearer ${TOKEN}`,
+export async function seed() {
+  const token = process.env.SANITY_API_WRITE_TOKEN;
+  if (!token) return "SANITY_API_WRITE_TOKEN is not set on this deployment.";
+  const headers = {
+  Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
 };
 
@@ -25,7 +23,7 @@ const image = (assetId, alt) =>
 
 async function query(expression) {
   const url = `${API}/data/query/${DATASET}?query=${encodeURIComponent(expression)}`;
-  const response = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+  const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   const body = await response.json();
   if (!response.ok) throw new Error(`Sanity query failed: ${JSON.stringify(body)}`);
   return body.result;
@@ -42,7 +40,7 @@ async function upload(path) {
   const uploaded = await fetch(`${API}/assets/images/${DATASET}?filename=${filename}`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": response.headers.get("content-type") || "image/jpeg",
     },
     body: bytes,
@@ -625,8 +623,7 @@ if (existing.legal === 0) {
 }
 
 if (mutations.length === 0) {
-  console.log("Studio already has content. Seed left existing documents alone.");
-  process.exit(0);
+  return "Studio already has content. Seed left existing documents alone.";
 }
 
 const response = await fetch(`${API}/data/mutate/${DATASET}`, {
@@ -636,7 +633,19 @@ const response = await fetch(`${API}/data/mutate/${DATASET}`, {
 });
 const body = await response.json();
 if (!response.ok) {
-  console.error(JSON.stringify(body).slice(0, 2000));
-  process.exit(1);
+  throw new Error(JSON.stringify(body).slice(0, 2000));
 }
-console.log(`Seeded ${mutations.length} Sanity documents.`);
+return `Seeded ${mutations.length} Sanity documents.`;
+}
+
+const isDirect = process.argv[1] && import.meta.url.endsWith(process.argv[1].split("/").pop());
+if (isDirect) {
+  seed()
+    .then((message) => {
+      console.log(message);
+    })
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
+}
