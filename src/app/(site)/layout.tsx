@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { MobileCtaBar } from "@/components/site/mobile-cta-bar";

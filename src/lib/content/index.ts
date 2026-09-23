@@ -50,7 +50,7 @@ function client() {
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
     apiVersion: "2026-09-01",
-    useCdn: true,
+    useCdn: false,
   });
 }
 
@@ -65,35 +65,57 @@ async function fetchOrFallback<T>(query: string, fallback: T): Promise<T> {
   }
 }
 
+function text(value: unknown, fallback: string) {
+  return typeof value === "string" && value.trim() ? value : fallback;
+}
+
 export function getFallbackContent(): SiteContent {
   return fallbackContent;
 }
 
 export async function getSettings(): Promise<SiteSettings> {
-  const settings = await fetchOrFallback(
-    `*[_type == "siteSettings"][0]{
-      businessName, tagline, phone, textNumber, email, address, hours, hoursSummary,
-      serviceAreaLine, social, announcement, footerNote, analytics, cookieBannerEnabled,
-      googleReviewUrl, googleReviewButtonLabel,
-      "logo": logo{ "src": asset->url, alt, "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height },
-      seo{ title, description, noIndex, "ogImage": ogImage{ "src": asset->url, alt } }
-    }`,
-    fallbackContent.settings,
-  );
-  return {
-    ...settings,
+  const base: SiteSettings = {
+    ...fallbackContent.settings,
     email: "infoshorelinecleaning757@gmail.com",
     googleReviewButtonLabel: "CLICK HERE TO LEAVE A GOOGLE REVIEW!",
+    googleReviewUrl: "https://www.google.com/search?q=Shoreline+Cleaning+LLC+Virginia+Beach+reviews",
+  };
+  const remote = await fetchOrFallback<{
+    businessName?: string;
+    tagline?: string;
+    footerNote?: string;
+    serviceAreaLine?: string;
+    googleReviewUrl?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+  } | null>(
+    `*[_id == "siteSettings"][0]{
+      businessName, tagline, footerNote, serviceAreaLine, googleReviewUrl, seoTitle, seoDescription
+    }`,
+    null,
+  );
+  if (!remote?.businessName) return base;
+  return {
+    ...base,
+    businessName: text(remote.businessName, base.businessName),
+    tagline: text(remote.tagline, base.tagline),
+    footerNote: text(remote.footerNote, base.footerNote),
+    serviceAreaLine: text(remote.serviceAreaLine, base.serviceAreaLine),
     googleReviewUrl:
-      settings.googleReviewUrl && !settings.googleReviewUrl.startsWith("[")
-        ? settings.googleReviewUrl
-        : "https://www.google.com/search?q=Shoreline+Cleaning+LLC+Virginia+Beach+reviews",
+      remote.googleReviewUrl && !remote.googleReviewUrl.startsWith("[")
+        ? remote.googleReviewUrl
+        : base.googleReviewUrl,
+    seo: {
+      ...base.seo,
+      title: text(remote.seoTitle, base.seo.title),
+      description: text(remote.seoDescription, base.seo.description),
+    },
   };
 }
 
 export async function getHome(): Promise<HomePageContent> {
   const home = fallbackContent.home;
-  return {
+  const live = {
     ...home,
     featuredServiceSlugs: [
       "deep-cleaning",
@@ -122,17 +144,165 @@ export async function getHome(): Promise<HomePageContent> {
     serviceAreaBody:
       "Since 2018 we have served clients across Hampton Roads, including Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, and Newport News, with work extending into Williamsburg and parts of North Carolina (Elizabeth City and Moyock).",
   };
+  const remote = await fetchOrFallback<{
+    heroEyebrow?: string;
+    heroHeadline?: string;
+    heroSubheadline?: string;
+    heroPrimaryCta?: string;
+    introHeading?: string;
+    introBody?: string;
+    howItWorksHeading?: string;
+    howItWorksIntro?: string;
+    howItWorksSteps?: { title?: string; description?: string }[];
+    highlights?: { title?: string; description?: string }[];
+    closingHeading?: string;
+    closingBody?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+    heroImage?: { src?: string; alt?: string };
+  } | null>(
+    `*[_id == "homePage"][0]{
+      heroEyebrow, heroHeadline, heroSubheadline, heroPrimaryCta,
+      introHeading, introBody, howItWorksHeading, howItWorksIntro,
+      howItWorksSteps[]{title, description}, highlights[]{title, description},
+      closingHeading, closingBody, seoTitle, seoDescription,
+      "heroImage": heroImage{ "src": asset->url, alt }
+    }`,
+    null,
+  );
+  if (!remote?.heroHeadline) return live;
+  const steps = (remote.howItWorksSteps ?? []).filter((step) => step.title);
+  const highlights = (remote.highlights ?? []).filter((item) => item.title);
+  return {
+    ...live,
+    heroEyebrow: text(remote.heroEyebrow, live.heroEyebrow),
+    heroHeadline: text(remote.heroHeadline, live.heroHeadline),
+    heroSubheadline: text(remote.heroSubheadline, live.heroSubheadline),
+    heroPrimaryCta: text(remote.heroPrimaryCta, live.heroPrimaryCta),
+    heroImage: remote.heroImage?.src
+      ? { ...live.heroImage, src: remote.heroImage.src, alt: remote.heroImage.alt || live.heroImage.alt }
+      : live.heroImage,
+    introHeading: text(remote.introHeading, live.introHeading),
+    introBody: text(remote.introBody, live.introBody),
+    howItWorksHeading: text(remote.howItWorksHeading, live.howItWorksHeading),
+    howItWorksIntro: text(remote.howItWorksIntro, live.howItWorksIntro),
+    howItWorksSteps: steps.length
+      ? steps.map((step) => ({ title: step.title as string, description: step.description || "" }))
+      : live.howItWorksSteps,
+    highlights: highlights.length
+      ? highlights.map((item) => ({ title: item.title as string, description: item.description || "" }))
+      : live.highlights,
+    closingHeading: text(remote.closingHeading, live.closingHeading),
+    closingBody: text(remote.closingBody, live.closingBody),
+    seo: {
+      ...live.seo,
+      title: text(remote.seoTitle, live.seo.title),
+      description: text(remote.seoDescription, live.seo.description),
+    },
+  };
 }
 
 export async function getAbout(): Promise<AboutPage> {
-  return fallbackContent.about;
+  const about = fallbackContent.about;
+  const remote = await fetchOrFallback<{
+    heading?: string;
+    storyHeading?: string;
+    story?: string[];
+    whyItems?: { title?: string; description?: string }[];
+    values?: { title?: string; description?: string }[];
+    community?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+  } | null>(
+    `*[_id == "aboutPage"][0]{
+      heading, storyHeading, story, whyItems[]{title, description}, values[]{title, description}, community,
+      seoTitle, seoDescription
+    }`,
+    null,
+  );
+  if (!remote?.heading) return about;
+  const story = (remote.story ?? []).filter((paragraph) => typeof paragraph === "string" && paragraph.trim());
+  const whyItems = (remote.whyItems ?? []).filter((item) => item.title);
+  const values = (remote.values ?? []).filter((item) => item.title);
+  return {
+    ...about,
+    heading: text(remote.heading, about.heading),
+    storyHeading: text(remote.storyHeading, about.storyHeading),
+    story: story.length ? story : about.story,
+    whyItems: whyItems.length
+      ? whyItems.map((item) => ({ title: item.title as string, description: item.description || "" }))
+      : about.whyItems,
+    values: values.length
+      ? values.map((item) => ({ title: item.title as string, description: item.description || "" }))
+      : about.values,
+    community: text(remote.community, about.community),
+    seo: {
+      ...about.seo,
+      title: text(remote.seoTitle, about.seo.title),
+      description: text(remote.seoDescription, about.seo.description),
+    },
+  };
 }
 
 export async function getServices(): Promise<Service[]> {
-  return fallbackContent.services
+  const live = fallbackContent.services
     .map(publicService)
-    .filter((s): s is Service => Boolean(s))
+    .filter((service): service is Service => Boolean(service))
     .sort((a, b) => a.order - b.order);
+  const remote = await fetchOrFallback<
+    {
+      slug?: string;
+      name?: string;
+      shortDescription?: string;
+      overview?: string;
+      included?: string[];
+      notIncluded?: string[];
+      idealFor?: string[];
+      featured?: boolean;
+      order?: number;
+      image?: { src?: string; alt?: string };
+      seoTitle?: string;
+      seoDescription?: string;
+    }[]
+  >(
+    `*[_type == "service" && published == true]{
+      "slug": slug.current, name, shortDescription, overview, included, notIncluded, idealFor,
+      featured, order, seoTitle, seoDescription,
+      "image": image{ "src": asset->url, alt }
+    }`,
+    [],
+  );
+  if (!remote.length) return live;
+  const bySlug = new Map(live.map((service) => [service.slug, service]));
+  const mapped = remote
+    .filter((service) => service.slug && OFFERED_SLUGS.has(service.slug))
+    .map((service) => {
+      const base = bySlug.get(service.slug as string) ?? live[0];
+      return {
+        ...base,
+        slug: service.slug as string,
+        name: text(service.name, base.name),
+        shortDescription: text(service.shortDescription, base.shortDescription),
+        overview: text(service.overview, base.overview),
+        included: service.included?.length ? service.included : base.included,
+        notIncluded: service.notIncluded?.length ? service.notIncluded : base.notIncluded,
+        idealFor: service.idealFor?.length ? service.idealFor : base.idealFor,
+        image: service.image?.src
+          ? { ...base.image, src: service.image.src, alt: service.image.alt || base.image.alt }
+          : base.image,
+        featured: service.featured ?? base.featured,
+        order: typeof service.order === "number" ? service.order : base.order,
+        published: true,
+        pricingNote: "",
+        seo: {
+          ...base.seo,
+          title: text(service.seoTitle, base.seo.title),
+          description: text(service.seoDescription, base.seo.description),
+        },
+      };
+    })
+    .sort((a, b) => a.order - b.order);
+  return mapped.length ? mapped : live;
 }
 
 export async function getService(slug: string): Promise<Service | undefined> {
@@ -149,7 +319,7 @@ export async function getBeforeAfter(): Promise<BeforeAfterPair[]> {
 }
 
 export async function getReviews(): Promise<Review[]> {
-  return [...fallbackContent.reviews]
+  const live = [...fallbackContent.reviews]
     .map((review) => ({
       ...review,
       serviceType:
@@ -162,6 +332,13 @@ export async function getReviews(): Promise<Review[]> {
               : review.serviceType,
     }))
     .sort((a, b) => a.order - b.order);
+  const remote = await fetchOrFallback<Review[]>(
+    `*[_type == "review" && defined(displayName)] | order(order asc) {
+      "id": _id, displayName, rating, text, serviceType, date, isSample, showOnHomepage, order
+    }`,
+    [],
+  );
+  return remote.length ? remote.map((review) => ({ ...review, isSample: review.isSample !== false && review.isSample !== undefined ? review.isSample : false })) : live;
 }
 
 export async function getFaqs(): Promise<Faq[]> {
@@ -185,9 +362,16 @@ export async function getFaqs(): Promise<Faq[]> {
         "We generally serve clients throughout Hampton Roads and the areas we mentioned in the Service Areas section of this website. However, if you are outside of those listed areas, we can discuss your needs after you complete the initial intake form and determine if our company is a good fit for you!",
     },
   };
-  return [...fallbackContent.faqs]
+  const live = [...fallbackContent.faqs]
     .map((faq) => ({ ...faq, ...overrides[faq.id] }))
     .sort((a, b) => a.order - b.order);
+  const remote = await fetchOrFallback<Faq[]>(
+    `*[_type == "faq" && defined(question)] | order(order asc) {
+      "id": _id, question, answer, category, order
+    }`,
+    [],
+  );
+  return remote.length ? remote : live;
 }
 
 export async function getTeam(): Promise<TeamMember[]> {
@@ -206,7 +390,7 @@ export async function getPost(slug: string): Promise<BlogPost | undefined> {
 }
 
 export async function getServiceAreas(): Promise<ServiceAreasPage> {
-  return {
+  const live: ServiceAreasPage = {
     seo: {
       title: "Service Areas | Shoreline Cleaning LLC | 757 & Hampton Roads",
       description:
@@ -228,6 +412,33 @@ export async function getServiceAreas(): Promise<ServiceAreasPage> {
     ],
     outsideAreaNote:
       "Simply fill out our intake form and when we discuss via call, text or email, we can determine if our company is a good fit for your needs!",
+  };
+  const remote = await fetchOrFallback<{
+    heading?: string;
+    intro?: string;
+    areas?: { name?: string; note?: string }[];
+    outsideAreaNote?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+  } | null>(
+    `*[_id == "serviceAreasPage"][0]{
+      heading, intro, areas[]{name, note}, outsideAreaNote, seoTitle, seoDescription
+    }`,
+    null,
+  );
+  if (!remote?.heading) return live;
+  const areas = (remote.areas ?? []).filter((area) => area.name);
+  return {
+    ...live,
+    heading: text(remote.heading, live.heading),
+    intro: text(remote.intro, live.intro),
+    areas: areas.length ? areas.map((area) => ({ name: area.name as string, note: area.note })) : live.areas,
+    outsideAreaNote: text(remote.outsideAreaNote, live.outsideAreaNote),
+    seo: {
+      ...live.seo,
+      title: text(remote.seoTitle, live.seo.title),
+      description: text(remote.seoDescription, live.seo.description),
+    },
   };
 }
 
