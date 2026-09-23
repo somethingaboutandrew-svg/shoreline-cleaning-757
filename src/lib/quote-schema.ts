@@ -1,4 +1,13 @@
 import { z } from "zod";
+import { OFFERED_SERVICES } from "@/lib/site-config";
+
+export const FREQUENCY_OPTIONS = [
+  "One-time Deep Clean",
+  "Weekly",
+  "Every-two weeks",
+  "Monthly",
+  "Unsure",
+] as const;
 
 export const quoteSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(120),
@@ -7,10 +16,10 @@ export const quoteSchema = z.object({
   preferredContact: z.enum(["call", "text", "email"]),
   serviceNeeded: z.string().trim().min(1, "Please choose a service"),
   propertyType: z.enum(["home", "apartment", "office", "rental", "other"]),
-  size: z.string().trim().max(80).optional().default(""),
+  size: z.string().trim().max(160).optional().default(""),
   desiredDate: z.string().trim().max(40).optional().default(""),
-  frequency: z.enum(["one-time", "weekly", "biweekly", "monthly", "custom"]),
-  cityOrZip: z.string().trim().min(2, "Please add a city or ZIP").max(80),
+  frequency: z.enum(FREQUENCY_OPTIONS),
+  cityOrZip: z.string().trim().min(2, "Please add a city and ZIP").max(80),
   message: z.string().trim().max(4000).optional().default(""),
   consent: z
     .boolean()
@@ -20,13 +29,4 @@ export const quoteSchema = z.object({
 
 export type QuoteInput = z.infer<typeof quoteSchema>;
 
-export const SERVICE_OPTIONS = [
-  "Standard Residential Cleaning",
-  "Deep Cleaning",
-  "Move-In / Move-Out Cleaning",
-  "Recurring Cleaning",
-  "Commercial / Office Cleaning",
-  "Airbnb / Short-Term Rental Turnover Cleaning",
-  "Post-Construction Cleaning",
-  "Not sure yet",
-] as const;
+export const SERVICE_OPTIONS = [...OFFERED_SERVICES] as const;
