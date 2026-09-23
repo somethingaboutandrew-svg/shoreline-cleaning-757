@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { NAV_LINKS } from "@/lib/site-config";
+import { NAV_LINKS, PUBLIC_EMAIL } from "@/lib/site-config";
 import type { SiteSettings } from "@/lib/content/types";
-import { httpHref, realValue } from "@/lib/placeholders";
+import { httpHref } from "@/lib/placeholders";
 import { Container } from "./container";
 import { Logo } from "./logo";
-import { ContactLinks } from "./contact-links";
 
 export function Footer({ settings }: { settings: SiteSettings }) {
   const social = [
@@ -12,6 +11,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
     { label: "Facebook", href: httpHref(settings.social.facebook) },
     { label: "Instagram", href: httpHref(settings.social.instagram) },
   ].filter((item) => item.href);
+  const email = PUBLIC_EMAIL;
 
   return (
     <footer className="border-t border-border bg-white">
@@ -36,15 +36,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         <div>
           <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-muted">Contact</h2>
           <div className="mt-4 space-y-2 text-sm text-navy">
-            {realValue(settings.phone) ? <p>Phone: {settings.phone}</p> : <p>Phone: add in Site Settings</p>}
-            {realValue(settings.email) ? <p>Email: {settings.email}</p> : <p>Email: add in Site Settings</p>}
-            {realValue(settings.hoursSummary) ? (
-              <p>Hours: {settings.hoursSummary}</p>
-            ) : (
-              <p>Hours: add in Site Settings</p>
-            )}
+            <p>
+              Email:{" "}
+              <a className="text-aqua hover:underline" href={`mailto:${email}`}>
+                {email}
+              </a>
+            </p>
           </div>
-          <ContactLinks settings={settings} className="mt-4" compact />
           {social.length > 0 ? (
             <ul className="mt-4 flex flex-wrap gap-3">
               {social.map((item) => (
@@ -60,7 +58,9 @@ export function Footer({ settings }: { settings: SiteSettings }) {
       </Container>
       <div className="border-t border-border">
         <Container className="flex flex-col gap-3 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} {settings.businessName}. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {settings.businessName}. All rights reserved.
+          </p>
           <div className="flex gap-4">
             <Link href="/privacy" className="hover:text-navy">
               Privacy

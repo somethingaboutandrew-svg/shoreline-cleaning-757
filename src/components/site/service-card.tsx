@@ -17,7 +17,6 @@ export function ServiceCard({ service }: { service: Service }) {
       <div className="flex flex-1 flex-col p-6">
         <h3 className="font-display text-2xl text-navy">{service.name}</h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{service.shortDescription}</p>
-        <p className="mt-4 text-xs font-medium uppercase tracking-[0.12em] text-aqua">{service.pricingNote}</p>
         <Link
           href={`/services/${service.slug}`}
           className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-navy hover:text-aqua"

@@ -3,10 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { NAV_LINKS, PRIMARY_CTA } from "@/lib/site-config";
 import type { SiteSettings } from "@/lib/content/types";
-import { telHref } from "@/lib/placeholders";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
@@ -14,7 +13,6 @@ import { Logo } from "./logo";
 export function Header({ settings }: { settings: SiteSettings }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const call = telHref(settings.phone);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-foam/90 backdrop-blur-md">
@@ -48,17 +46,10 @@ export function Header({ settings }: { settings: SiteSettings }) {
           ))}
         </nav>
         <div className="hidden items-center gap-2 lg:flex">
-          {call ? (
-            <a
-              href={call}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-medium text-navy hover:bg-sky-soft"
-            >
-              <Phone className="size-4" aria-hidden />
-              Call
-            </a>
-          ) : null}
-          <Button asChild>
-            <Link href={PRIMARY_CTA.href}>{PRIMARY_CTA.label}</Link>
+          <Button asChild className="min-w-[13.5rem] px-6 text-center leading-tight">
+            <Link href={PRIMARY_CTA.href} className="justify-center text-center">
+              {PRIMARY_CTA.label}
+            </Link>
           </Button>
         </div>
         <button
@@ -88,7 +79,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
             <Link
               href={PRIMARY_CTA.href}
               onClick={() => setOpen(false)}
-              className="mt-2 flex min-h-12 items-center justify-center rounded-full bg-aqua text-base font-medium text-white"
+              className="mt-2 flex min-h-12 items-center justify-center rounded-full bg-aqua px-4 text-center text-base font-medium text-white"
             >
               {PRIMARY_CTA.label}
             </Link>
