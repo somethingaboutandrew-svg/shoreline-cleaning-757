@@ -1,25 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { SERVICE_OPTIONS } from "@/lib/quote-schema";
+import { FREQUENCY_OPTIONS, SERVICE_OPTIONS } from "@/lib/quote-schema";
 import { cn } from "@/lib/utils";
 
 const fieldClass =
   "mt-1.5 min-h-12 w-full rounded-xl border border-border bg-white px-4 text-base text-ink shadow-none outline-none focus:border-aqua focus:ring-2 focus:ring-aqua/30";
 const labelClass = "block text-sm font-medium text-navy";
 
-export function QuoteForm({ services }: { services: string[] }) {
-  const options = services.length ? services : [...SERVICE_OPTIONS];
+export function QuoteForm() {
+  const options = SERVICE_OPTIONS;
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [asap, setAsap] = useState(false);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("submitting");
     setMessage("");
     const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
     data.consent = form.querySelector<HTMLInputElement>("#consent")?.checked ? "true" : "false";
+    if (asap) data.desiredDate = "As soon as possible";
     try {
       const res = await fetch("/api/quote", {
         method: "POST",
@@ -29,12 +31,13 @@ export function QuoteForm({ services }: { services: string[] }) {
       const json = (await res.json()) as { ok: boolean; error?: string };
       if (!res.ok || !json.ok) {
         setStatus("error");
-        setMessage(json.error || "Something went wrong. Please try again or call us.");
+        setMessage(json.error || "Something went wrong. Please try again or email us.");
         return;
       }
       setStatus("success");
-      setMessage("Thanks — your request is in. We'll follow up by your preferred method with a quote.");
+      setMessage("Thanks. Your intake is in. We'll follow up by your preferred method.");
       form.reset();
+      setAsap(false);
     } catch {
       setStatus("error");
       setMessage("We couldn't send that just now. Please try again in a moment.");
@@ -70,7 +73,6 @@ export function QuoteForm({ services }: { services: string[] }) {
                 {opt}
               </option>
             ))}
-            <option value="Not sure yet">Not sure yet</option>
           </select>
         </div>
         <div>
@@ -85,28 +87,50 @@ export function QuoteForm({ services }: { services: string[] }) {
             <option value="other">Other</option>
           </select>
         </div>
-        <Field
-          label="Bedrooms / bathrooms or square footage"
-          name="size"
-          placeholder="e.g. 3 bed / 2 bath or 1,400 sq ft"
-        />
-        <Field label="Desired service date" name="desiredDate" type="date" />
+        <div className="sm:col-span-2">
+          <label className={labelClass} htmlFor="size">
+            # of Bedrooms, bathrooms, living rooms and kitchens and approximate square footage of house
+          </label>
+          <input
+            id="size"
+            name="size"
+            type="text"
+            placeholder="e.g. 3 beds, 2 baths, 1 kitchen, 1 living room and 2,400 square feet"
+            className={fieldClass}
+          />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="desiredDate">
+            Desired start up date
+          </label>
+          <input id="desiredDate" name="desiredDate" type="date" disabled={asap} className={fieldClass} />
+          <label className="mt-2 flex items-center gap-2 text-sm text-navy">
+            <input
+              type="checkbox"
+              checked={asap}
+              onChange={(event) => setAsap(event.target.checked)}
+              className="size-4 rounded border-border text-aqua"
+            />
+            As soon as possible
+          </label>
+        </div>
         <div>
           <label className={labelClass} htmlFor="frequency">
             Frequency
           </label>
-          <select id="frequency" name="frequency" required className={fieldClass} defaultValue="one-time">
-            <option value="one-time">One-time</option>
-            <option value="weekly">Weekly</option>
-            <option value="biweekly">Biweekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="custom">Custom</option>
+          <select id="frequency" name="frequency" required className={fieldClass} defaultValue="Unsure">
+            {FREQUENCY_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
           </select>
         </div>
-        <Field label="City or ZIP code" name="cityOrZip" required placeholder="757 area city or ZIP" />
+        <Field label="City and ZIP code" name="cityOrZip" required placeholder="City and ZIP" />
         <div className="sm:col-span-2">
           <label className={labelClass} htmlFor="message">
-            Message / special requests
+            Additional info we need to know (please add all of the information we need to know that will best help us
+            develop the right plan for you!)
           </label>
           <textarea id="message" name="message" rows={5} className={cn(fieldClass, "min-h-32 py-3")} />
         </div>
@@ -132,7 +156,7 @@ export function QuoteForm({ services }: { services: string[] }) {
         disabled={status === "submitting"}
         className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-aqua px-6 text-base font-medium text-white hover:bg-aqua-dark disabled:opacity-60 sm:w-auto"
       >
-        {status === "submitting" ? "Sending…" : "Send quote request"}
+        {status === "submitting" ? "Sending…" : "Submit"}
       </button>
       {status === "success" ? (
         <p className="mt-4 rounded-xl bg-sky-soft px-4 py-3 text-sm text-navy" role="status">
@@ -145,8 +169,9 @@ export function QuoteForm({ services }: { services: string[] }) {
         </p>
       ) : null}
       <p className="mt-4 text-xs text-muted">
-        There are no prices on this website. After you submit, the owner will follow up with a quote by call, text, or
-        email.
+        We don&apos;t post prices on this website as every client&apos;s needs are unique. After you submit this intake
+        form, we will reach out to you via call, text or email to set up a time to discuss our services and provide you
+        with a quote.
       </p>
     </form>
   );

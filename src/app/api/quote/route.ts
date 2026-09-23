@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { PUBLIC_EMAIL } from "@/lib/site-config";
 import { quoteSchema } from "@/lib/quote-schema";
 
 export async function POST(request: Request) {
@@ -26,18 +27,14 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.QUOTE_TO_EMAIL;
+  const to = process.env.QUOTE_TO_EMAIL || PUBLIC_EMAIL;
   const from = process.env.QUOTE_FROM_EMAIL || "Shoreline Cleaning LLC <quotes@shorelinecleaning757.com>";
 
-  if (!apiKey || !to) {
-    const devHint =
-      process.env.NODE_ENV !== "production"
-        ? " Development note: set RESEND_API_KEY and QUOTE_TO_EMAIL to enable sending."
-        : "";
+  if (!apiKey) {
     return NextResponse.json(
       {
         ok: false,
-        error: `The quote form is not connected to email yet. Please try again later or check the contact details on this site.${devHint}`,
+        error: "The quote form is not connected to email yet. Please try again later or email us directly.",
       },
       { status: 503 },
     );
@@ -54,11 +51,11 @@ export async function POST(request: Request) {
     `Service: ${data.serviceNeeded}`,
     `Property type: ${data.propertyType}`,
     `Size: ${data.size || "—"}`,
-    `Desired date: ${data.desiredDate || "—"}`,
+    `Desired start up date: ${data.desiredDate || "—"}`,
     `Frequency: ${data.frequency}`,
-    `City or ZIP: ${data.cityOrZip}`,
+    `City and ZIP: ${data.cityOrZip}`,
     "",
-    data.message || "(no message)",
+    data.message || "(no additional info)",
   ].join("\n");
 
   const { error } = await resend.emails.send({
@@ -71,7 +68,7 @@ export async function POST(request: Request) {
 
   if (error) {
     return NextResponse.json(
-      { ok: false, error: "We couldn't send that just now. Please try again or call us." },
+      { ok: false, error: "We couldn't send that just now. Please try again or email us." },
       { status: 502 },
     );
   }
