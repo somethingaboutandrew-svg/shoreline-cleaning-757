@@ -15,7 +15,7 @@ export default async function AboutPage() {
   const [about, team] = await Promise.all([getAbout(), getTeam()]);
   return (
     <>
-      <PageHero eyebrow="About" heading={about.heading} />
+      <PageHero eyebrow="About Us" heading={about.heading} />
       <Section>
         <Container className="grid items-start gap-10 lg:grid-cols-2">
           <div>
