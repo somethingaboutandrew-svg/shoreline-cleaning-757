@@ -34,7 +34,7 @@ export default async function ServiceAreasPage() {
           <figure className="mt-10 overflow-hidden rounded-[20px] bg-white shadow-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/service-area-map.svg"
+              src="/images/service-area-map.jpg"
               alt="Map of Hampton Roads and nearby North Carolina towns served by Shoreline Cleaning LLC, with pins on Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, Williamsburg, Elizabeth City, and Moyock"
               className="h-auto w-full"
             />
