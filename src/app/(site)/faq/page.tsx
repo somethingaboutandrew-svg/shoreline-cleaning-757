@@ -25,11 +25,7 @@ export default async function FaqPage() {
   return (
     <>
       {faqs.length > 0 ? <JsonLd data={faqJsonLd(faqs)} /> : null}
-      <PageHero
-        eyebrow="FAQ"
-        heading="Questions, answered"
-        body="These FAQs are managed in Sanity. Structured data is generated only from published questions."
-      />
+      <PageHero eyebrow="FAQ" heading="Questions, answered" />
       <Section>
         <Container className="max-w-3xl">
           {faqs.length === 0 ? <p className="text-muted">No FAQs published yet.</p> : <FaqList faqs={faqs} />}
