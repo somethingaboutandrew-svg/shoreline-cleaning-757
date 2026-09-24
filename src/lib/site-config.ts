@@ -10,7 +10,6 @@ export const GOOGLE_REVIEW_URL =
 
 export const NAV_LINKS = [
   { href: "/services", label: "Services" },
-  { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About Us" },
   { href: "/reviews", label: "Reviews" },
   { href: "/service-areas", label: "Service Areas" },

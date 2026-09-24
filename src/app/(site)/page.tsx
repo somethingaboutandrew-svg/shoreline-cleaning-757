@@ -159,9 +159,6 @@ export default async function HomePage() {
                   Replace these sample photos in Sanity anytime
                 </li>
               </ul>
-              <Link href="/gallery" className="mt-6 inline-flex min-h-11 items-center font-semibold text-navy">
-                View the gallery →
-              </Link>
             </div>
             <BeforeAfter pair={pair} />
           </Container>

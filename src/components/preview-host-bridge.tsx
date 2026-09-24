@@ -7,7 +7,6 @@ import { installPreviewHostBridge } from "@/lib/preview-host-bridge";
 const ROUTES = [
   "/",
   "/services",
-  "/gallery",
   "/about",
   "/reviews",
   "/service-areas",
