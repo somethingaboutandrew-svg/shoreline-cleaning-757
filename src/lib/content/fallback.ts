@@ -425,11 +425,11 @@ export const fallbackContent: SiteContent = {
       category: "kitchens",
       before: img(
         "/images/kitchen-before.jpg",
-        "Lived-in kitchen before a professional clean, with dishes in the sink and cluttered counters",
+        "Lived-in family kitchen before cleaning, with a cluttered island, dishes in the sink, and crumbs on the floor",
       ),
       after: img(
         "/images/kitchen-after.jpg",
-        "Same kitchen style after a professional clean, with clear counters and a sparkling sink",
+        "The same kitchen after a professional clean, with clear counters, an empty sink, and a wiped floor",
       ),
       order: 1,
     },
