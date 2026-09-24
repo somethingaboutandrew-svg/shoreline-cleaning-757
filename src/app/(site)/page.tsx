@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { BeforeAfter } from "@/components/site/before-after";
 import { Container, Section } from "@/components/site/container";
 import { CtaBanner } from "@/components/site/cta-banner";
@@ -80,7 +80,6 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-xs text-muted">These are marketing highlights, not certifications or guarantees.</p>
         </Container>
       </Section>
 
@@ -149,16 +148,6 @@ export default async function HomePage() {
             <div>
               <h2 className="text-3xl sm:text-4xl">{home.beforeAfterHeading}</h2>
               <p className="mt-3 text-muted">{home.beforeAfterIntro}</p>
-              <ul className="mt-6 space-y-3 text-sm text-navy">
-                <li className="flex gap-2">
-                  <CheckCircle2 className="mt-0.5 size-4 text-aqua" aria-hidden />
-                  Side-by-side or toggle views — always with alt text
-                </li>
-                <li className="flex gap-2">
-                  <CheckCircle2 className="mt-0.5 size-4 text-aqua" aria-hidden />
-                  Replace these sample photos in Sanity anytime
-                </li>
-              </ul>
             </div>
             <BeforeAfter pair={pair} />
           </Container>
@@ -173,7 +162,6 @@ export default async function HomePage() {
               All reviews →
             </Link>
           </div>
-          <p className="mt-2 text-sm text-muted">Sample reviews are labeled.</p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {homeReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />

@@ -421,7 +421,7 @@ export const fallbackContent: SiteContent = {
     {
       id: "kitchen-reset",
       title: "Kitchen reset",
-      caption: "Sample before-and-after pair. Replace with real job photos in Sanity.",
+      caption: "",
       category: "kitchens",
       before: img(
         "/images/kitchen-before.jpg",
@@ -436,7 +436,7 @@ export const fallbackContent: SiteContent = {
     {
       id: "bath-reset",
       title: "Bathroom reset",
-      caption: "Sample before-and-after pair. Replace with real job photos in Sanity.",
+      caption: "",
       category: "bathrooms",
       before: img(
         "/images/bathroom-before.jpg",
