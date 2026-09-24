@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     seo: {
       title: "Reviews | Shoreline Cleaning LLC",
       description:
-        "Customer reviews for Shoreline Cleaning LLC. Sample quotes are labeled until real reviews are added.",
+        "Customer reviews for Shoreline Cleaning LLC in Virginia Beach and Hampton Roads.",
     },
     path: "/reviews",
     settings,
@@ -30,7 +30,7 @@ export default async function ReviewsPage() {
       <PageHero
         eyebrow="Reviews"
         heading="What customers say"
-        body="Sample reviews are clearly labeled. When a client submits a new testimonial, we review it before it appears here."
+        body="When a client submits a new testimonial, we review it before it appears here."
       />
       <Section>
         <Container className="space-y-10">
