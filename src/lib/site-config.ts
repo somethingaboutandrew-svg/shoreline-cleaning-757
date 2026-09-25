@@ -5,8 +5,7 @@ export const SITE_URL =
 export const SERVICE_AREA_LINE =
   "Serving the 757 and surrounding Hampton Roads communities";
 export const PUBLIC_EMAIL = "infoshorelinecleaning757@gmail.com";
-export const GOOGLE_REVIEW_URL =
-  "https://www.google.com/search?q=Shoreline+Cleaning+LLC+Virginia+Beach+reviews";
+export const GOOGLE_REVIEW_URL = "https://g.page/r/CWqcTHq4FPDNEBM/review";
 
 export const NAV_LINKS = [
   { href: "/services", label: "Services" },

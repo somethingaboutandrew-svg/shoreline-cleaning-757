@@ -33,7 +33,7 @@ export const fallbackContent: SiteContent = {
     footerNote:
       "Shoreline Cleaning LLC provides residential and commercial cleaning in the 757 and surrounding Hampton Roads communities. Quotes are provided after a short intake — by phone, text, or email.",
     cookieBannerEnabled: false,
-    googleReviewUrl: "[GOOGLE BUSINESS PROFILE URL]",
+    googleReviewUrl: "https://g.page/r/CWqcTHq4FPDNEBM/review",
     googleReviewButtonLabel: "Read or Leave a Review on Google",
     seo: {
       title: "Shoreline Cleaning LLC | Residential & Commercial Cleaning in the 757",

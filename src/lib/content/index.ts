@@ -1,4 +1,5 @@
 import { createClient } from "next-sanity";
+import { GOOGLE_REVIEW_URL, PUBLIC_EMAIL } from "@/lib/site-config";
 import { fallbackContent } from "./fallback";
 import type {
   AboutPage,
@@ -76,9 +77,9 @@ export function getFallbackContent(): SiteContent {
 export async function getSettings(): Promise<SiteSettings> {
   const base: SiteSettings = {
     ...fallbackContent.settings,
-    email: "infoshorelinecleaning757@gmail.com",
+    email: PUBLIC_EMAIL,
     googleReviewButtonLabel: "CLICK HERE TO LEAVE A GOOGLE REVIEW!",
-    googleReviewUrl: "https://www.google.com/search?q=Shoreline+Cleaning+LLC+Virginia+Beach+reviews",
+    googleReviewUrl: GOOGLE_REVIEW_URL,
   };
   const remote = await fetchOrFallback<{
     businessName?: string;
@@ -102,7 +103,9 @@ export async function getSettings(): Promise<SiteSettings> {
     footerNote: text(remote.footerNote, base.footerNote),
     serviceAreaLine: text(remote.serviceAreaLine, base.serviceAreaLine),
     googleReviewUrl:
-      remote.googleReviewUrl && !remote.googleReviewUrl.startsWith("[")
+      remote.googleReviewUrl &&
+      !remote.googleReviewUrl.startsWith("[") &&
+      !remote.googleReviewUrl.includes("google.com/search?q=")
         ? remote.googleReviewUrl
         : base.googleReviewUrl,
     seo: {
