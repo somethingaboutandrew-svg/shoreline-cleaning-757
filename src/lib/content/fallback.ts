@@ -44,9 +44,9 @@ export const fallbackContent: SiteContent = {
   },
   home: {
     seo: {
-      title: "Shoreline Cleaning LLC | Fresh, Careful Cleaning in the 757",
+      title: "House Cleaning in Virginia Beach | Shoreline Cleaning LLC",
       description:
-        "Request a free cleaning quote from Shoreline Cleaning LLC. Residential and commercial service for the 757 and surrounding Hampton Roads communities. We'll follow up by call, text, or email.",
+        "House cleaning in Virginia Beach and the 757 from Shoreline Cleaning LLC. Residential and commercial service across Hampton Roads. Request a free quote — we'll follow up by call, text, or email.",
     },
     heroEyebrow: "757 · Hampton Roads",
     heroHeadline: "Fresh, careful cleaning for homes and businesses",

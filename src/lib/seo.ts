@@ -90,7 +90,16 @@ export function localBusinessJsonLd(settings: SiteSettings) {
     "@type": ["LocalBusiness", "ProfessionalService"],
     name: settings.businessName,
     url: SITE_URL,
-    areaServed: settings.serviceAreaLine,
+    areaServed: [
+      { "@type": "City", name: "Virginia Beach" },
+      { "@type": "City", name: "Norfolk" },
+      { "@type": "City", name: "Chesapeake" },
+      { "@type": "City", name: "Suffolk" },
+      { "@type": "City", name: "Hampton" },
+      { "@type": "City", name: "Newport News" },
+      { "@type": "City", name: "Williamsburg" },
+      "Hampton Roads",
+    ],
     priceRange: "Quoted after intake",
   };
   if (phone) data.telephone = phone;

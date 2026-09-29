@@ -48,6 +48,13 @@ export default async function ServiceDetailPage({
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-aqua">Service</p>
             <h1 className="mt-3 text-4xl sm:text-5xl">{service.name}</h1>
             <p className="mt-4 text-lg text-muted">{service.shortDescription}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Available in Virginia Beach and across the 757. See our{" "}
+              <Link href="/service-areas" className="font-semibold text-navy underline decoration-aqua/40 underline-offset-4">
+                service areas
+              </Link>
+              .
+            </p>
             <p className="mt-4 text-sm font-medium text-navy">{service.pricingNote}</p>
             <div className="mt-6">
               <Button asChild size="lg">

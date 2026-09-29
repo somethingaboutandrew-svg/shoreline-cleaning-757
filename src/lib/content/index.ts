@@ -25,6 +25,16 @@ const OFFERED_SLUGS = new Set([
   "airbnb-turnover-cleaning",
 ]);
 
+function localizeServiceSeo(service: Service): Service {
+  const title = service.seo.title.includes("Virginia Beach")
+    ? service.seo.title
+    : `${service.name} in Virginia Beach | Shoreline Cleaning LLC`;
+  const description = service.seo.description.includes("Virginia Beach")
+    ? service.seo.description
+    : `${service.name} in Virginia Beach and Hampton Roads from Shoreline Cleaning LLC. Quotes after a short intake — no prices online.`;
+  return { ...service, seo: { ...service.seo, title, description } };
+}
+
 function publicService(service: Service): Service | null {
   const renamed =
     service.slug === "move-in-move-out-cleaning"
@@ -146,6 +156,12 @@ export async function getHome(): Promise<HomePageContent> {
     ],
     serviceAreaBody:
       "Since 2018 we have served clients across Hampton Roads, including Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, and Newport News, with work extending into Williamsburg and parts of North Carolina (Elizabeth City and Moyock).",
+    seo: {
+      ...home.seo,
+      title: "House Cleaning in Virginia Beach | Shoreline Cleaning LLC",
+      description:
+        "House cleaning in Virginia Beach and the 757 from Shoreline Cleaning LLC. Residential and commercial service across Hampton Roads. Request a free quote — we'll follow up by call, text, or email.",
+    },
   };
   const remote = await fetchOrFallback<{
     heroEyebrow?: string;
@@ -199,7 +215,9 @@ export async function getHome(): Promise<HomePageContent> {
     closingBody: text(remote.closingBody, live.closingBody),
     seo: {
       ...live.seo,
-      title: text(remote.seoTitle, live.seo.title),
+      title: remote.seoTitle?.includes("Virginia Beach")
+        ? text(remote.seoTitle, live.seo.title)
+        : live.seo.title,
       description: text(remote.seoDescription, live.seo.description),
     },
   };
@@ -275,7 +293,7 @@ export async function getServices(): Promise<Service[]> {
     }`,
     [],
   );
-  if (!remote.length) return live;
+  if (!remote.length) return live.map(localizeServiceSeo);
   const bySlug = new Map(live.map((service) => [service.slug, service]));
   const mapped = remote
     .filter((service) => service.slug && OFFERED_SLUGS.has(service.slug))
@@ -305,7 +323,7 @@ export async function getServices(): Promise<Service[]> {
       };
     })
     .sort((a, b) => a.order - b.order);
-  return mapped.length ? mapped : live;
+  return (mapped.length ? mapped : live).map(localizeServiceSeo);
 }
 
 export async function getService(slug: string): Promise<Service | undefined> {

@@ -10,9 +10,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
   return buildMetadata({
     seo: {
-      title: "Cleaning Services | Shoreline Cleaning LLC",
+      title: "Cleaning Services in Virginia Beach | Shoreline Cleaning LLC",
       description:
-        "Deep cleaning, post move-out, recurring, commercial, and short-term rental turnover cleaning from Shoreline Cleaning LLC in the 757.",
+        "Deep cleaning, post move-out, recurring, commercial, and short-term rental turnover cleaning in Virginia Beach and the 757 from Shoreline Cleaning LLC.",
     },
     path: "/services",
     settings,
