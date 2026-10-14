@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NAV_LINKS, PUBLIC_EMAIL } from "@/lib/site-config";
+import { NAV_LINKS, PUBLIC_EMAIL, PUBLIC_PHONE } from "@/lib/site-config";
 import type { SiteSettings } from "@/lib/content/types";
 import { httpHref } from "@/lib/placeholders";
 import { Container } from "./container";
@@ -36,6 +36,12 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         <div>
           <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-muted">Contact</h2>
           <div className="mt-4 space-y-2 text-sm text-navy">
+            <p>
+              Call or text:{" "}
+              <a className="text-aqua hover:underline" href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}>
+                {PUBLIC_PHONE}
+              </a>
+            </p>
             <p>
               Email:{" "}
               <a className="text-aqua hover:underline" href={`mailto:${email}`}>

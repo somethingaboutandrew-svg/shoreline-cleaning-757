@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { NAV_LINKS, PRIMARY_CTA } from "@/lib/site-config";
+import { NAV_LINKS, PRIMARY_CTA, PUBLIC_PHONE } from "@/lib/site-config";
 import type { SiteSettings } from "@/lib/content/types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,13 @@ export function Header({ settings }: { settings: SiteSettings }) {
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-3 lg:flex">
+          <a
+            href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}
+            className="text-sm font-medium text-navy hover:text-aqua"
+          >
+            {PUBLIC_PHONE}
+          </a>
           <Button asChild className="min-w-[13.5rem] px-6 text-center leading-tight">
             <Link href={PRIMARY_CTA.href} className="justify-center text-center">
               {PRIMARY_CTA.label}
@@ -76,6 +82,12 @@ export function Header({ settings }: { settings: SiteSettings }) {
                 {link.label}
               </Link>
             ))}
+            <a
+              href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}
+              className="mt-2 flex min-h-11 items-center justify-center rounded-full bg-white px-4 text-base font-medium text-navy shadow-card"
+            >
+              Call or text {PUBLIC_PHONE}
+            </a>
             <Link
               href={PRIMARY_CTA.href}
               onClick={() => setOpen(false)}

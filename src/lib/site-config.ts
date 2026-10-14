@@ -5,6 +5,7 @@ export const SITE_URL =
 export const SERVICE_AREA_LINE =
   "Serving the 757 and surrounding Hampton Roads communities";
 export const PUBLIC_EMAIL = "infoshorelinecleaning757@gmail.com";
+export const PUBLIC_PHONE = "757-550-1096";
 export const GOOGLE_REVIEW_URL = "https://g.page/r/CWqcTHq4FPDNEBM/review";
 export const GA_MEASUREMENT_ID =
   process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-VWZTHEM5VD";

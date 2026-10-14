@@ -9,7 +9,7 @@ import { FaqList } from "@/components/site/faq-list";
 import { ReviewCard } from "@/components/site/review-card";
 import { ServiceCard } from "@/components/site/service-card";
 import { Button } from "@/components/ui/button";
-import { PUBLIC_EMAIL } from "@/lib/site-config";
+import { PUBLIC_EMAIL, PUBLIC_PHONE } from "@/lib/site-config";
 import {
   getBeforeAfter,
   getFaqs,
@@ -186,6 +186,12 @@ export default async function HomePage() {
               Moyock.
             </p>
             <p className="mt-4 text-sm text-navy">
+              Call or text:{" "}
+              <a className="text-aqua hover:underline" href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}>
+                {PUBLIC_PHONE}
+              </a>
+            </p>
+            <p className="mt-2 text-sm text-navy">
               Email:{" "}
               <a className="text-aqua hover:underline" href={`mailto:${PUBLIC_EMAIL}`}>
                 {PUBLIC_EMAIL}

@@ -1,5 +1,5 @@
 import { createClient } from "next-sanity";
-import { GOOGLE_REVIEW_URL, PUBLIC_EMAIL } from "@/lib/site-config";
+import { GOOGLE_REVIEW_URL, PUBLIC_EMAIL, PUBLIC_PHONE } from "@/lib/site-config";
 import { fallbackContent } from "./fallback";
 import type {
   AboutPage,
@@ -88,6 +88,8 @@ export async function getSettings(): Promise<SiteSettings> {
   const base: SiteSettings = {
     ...fallbackContent.settings,
     email: PUBLIC_EMAIL,
+    phone: PUBLIC_PHONE,
+    textNumber: PUBLIC_PHONE,
     googleReviewButtonLabel: "CLICK HERE TO LEAVE A GOOGLE REVIEW!",
     googleReviewUrl: GOOGLE_REVIEW_URL,
   };

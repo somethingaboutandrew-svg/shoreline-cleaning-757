@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Phone } from "lucide-react";
+import { Phone, MessageSquare } from "lucide-react";
 import type { SiteSettings } from "@/lib/content/types";
-import { telHref } from "@/lib/placeholders";
+import { smsHref, telHref } from "@/lib/placeholders";
 
 export function MobileCtaBar({ settings }: { settings: SiteSettings }) {
   const pathname = usePathname();
   if (pathname === "/contact" || pathname.startsWith("/studio")) return null;
   const call = telHref(settings.phone);
+  const text = smsHref(settings.textNumber || settings.phone);
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-foam/95 p-3 backdrop-blur-md lg:hidden pb-[max(0.75rem,env(safe-area-inset-bottom))]">
@@ -21,6 +22,15 @@ export function MobileCtaBar({ settings }: { settings: SiteSettings }) {
           >
             <Phone className="size-4" aria-hidden />
             Call
+          </a>
+        ) : null}
+        {text ? (
+          <a
+            href={text}
+            className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-navy shadow-card"
+          >
+            <MessageSquare className="size-4" aria-hidden />
+            Text
           </a>
         ) : null}
         <Link

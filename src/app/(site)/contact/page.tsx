@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container, Section } from "@/components/site/container";
 import { PageHero } from "@/components/site/page-hero";
 import { QuoteForm } from "@/components/site/quote-form";
-import { PUBLIC_EMAIL } from "@/lib/site-config";
+import { PUBLIC_EMAIL, PUBLIC_PHONE } from "@/lib/site-config";
 import { getSettings } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
@@ -42,10 +42,15 @@ export default async function ContactPage() {
             <div className="rounded-[20px] bg-white p-6 shadow-card">
               <h2 className="text-2xl">Prefer to reach us directly?</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Feel free to email us directly if you have any questions or comments! Send us your message to{" "}
+                Feel free to call, text, or email if you have any questions. Call or text{" "}
+                <a className="font-medium text-aqua hover:underline" href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}>
+                  {PUBLIC_PHONE}
+                </a>{" "}
+                or email{" "}
                 <a className="font-medium text-aqua hover:underline" href={`mailto:${PUBLIC_EMAIL}`}>
                   {PUBLIC_EMAIL}
                 </a>
+                .
               </p>
             </div>
           </aside>
