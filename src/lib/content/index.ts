@@ -342,26 +342,12 @@ export async function getBeforeAfter(): Promise<BeforeAfterPair[]> {
 }
 
 export async function getReviews(): Promise<Review[]> {
-  const live = [...fallbackContent.reviews]
+  return [...fallbackContent.reviews]
     .map((review) => ({
       ...review,
-      serviceType:
-        review.serviceType === "Standard Residential Cleaning"
-          ? "Deep Cleaning"
-          : review.serviceType === "Move-In / Move-Out Cleaning"
-            ? "Post Move-Out Cleaning"
-            : review.serviceType === "Commercial / Office Cleaning"
-              ? "Commercial/Office Cleaning"
-              : review.serviceType,
+      isSample: false,
     }))
     .sort((a, b) => a.order - b.order);
-  const remote = await fetchOrFallback<Review[]>(
-    `*[_type == "review" && defined(displayName)] | order(order asc) {
-      "id": _id, displayName, rating, text, serviceType, date, isSample, showOnHomepage, order
-    }`,
-    [],
-  );
-  return remote.length ? remote.map((review) => ({ ...review, isSample: review.isSample !== false && review.isSample !== undefined ? review.isSample : false })) : live;
 }
 
 export async function getFaqs(): Promise<Faq[]> {
