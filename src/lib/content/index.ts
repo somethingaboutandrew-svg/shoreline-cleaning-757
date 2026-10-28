@@ -24,6 +24,8 @@ const OFFERED_SLUGS = new Set([
   "commercial-office-cleaning",
   "airbnb-turnover-cleaning",
   "house-cleaning-virginia-beach",
+  "commercial-cleaning-virginia-beach",
+  "deep-cleaning-move-in-move-out",
 ]);
 
 function localizeServiceSeo(service: Service): Service {
