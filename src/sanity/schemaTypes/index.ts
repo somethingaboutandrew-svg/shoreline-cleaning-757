@@ -123,7 +123,7 @@ export const homePage = defineType({
     defineField({
       name: "highlights",
       title: "Marketing highlights",
-      description: "Editable talking points — not certifications unless you have them.",
+      description: "Editable talking points. Not certifications unless you have them.",
       type: "array",
       of: [
         defineArrayMember({
@@ -429,7 +429,7 @@ export const legalPage = defineType({
     defineField({ name: "lastUpdated", title: "Last updated", type: "date" }),
     defineField({
       name: "isTemplate",
-      title: "Show “template — review before use” banner",
+      title: "Show “template: review before use” banner",
       type: "boolean",
       initialValue: true,
     }),

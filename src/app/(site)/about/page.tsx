@@ -28,7 +28,7 @@ export default async function AboutPage() {
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] shadow-card">
             <Image
-              src="/images/hero-kitchen.jpg"
+              src="/images/hero-kitchen.webp"
               alt="Bright professionally cleaned kitchen representing Shoreline Cleaning LLC work"
               fill
               className="object-cover"
@@ -72,7 +72,12 @@ export default async function AboutPage() {
                 <li key={member.id} className="rounded-[20px] bg-foam p-6 shadow-card">
                   {member.photo ? (
                     <div className="relative mb-4 aspect-square overflow-hidden rounded-[16px]">
-                      <Image src={member.photo.src} alt={member.photo.alt} fill className="object-cover" />
+                      <Image
+                        src={member.photo.src}
+                        alt={member.photo.alt}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
                   ) : null}
                   <h3 className="text-2xl">{member.name}</h3>

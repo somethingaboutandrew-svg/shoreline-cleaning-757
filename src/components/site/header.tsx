@@ -10,7 +10,13 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
 
-export function Header({ settings }: { settings: SiteSettings }) {
+export function Header({
+  settings,
+  links = NAV_LINKS,
+}: {
+  settings: SiteSettings;
+  links?: readonly { href: string; label: string }[];
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -30,7 +36,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Logo />
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {NAV_LINKS.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -72,7 +78,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
       {open ? (
         <div id="mobile-nav" className="border-t border-border bg-foam px-4 py-4 lg:hidden">
           <nav className="flex flex-col gap-1" aria-label="Mobile">
-            {NAV_LINKS.map((link) => (
+            {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

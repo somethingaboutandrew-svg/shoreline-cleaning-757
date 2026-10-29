@@ -169,9 +169,8 @@ export function QuoteForm() {
         </p>
       ) : null}
       <p className="mt-4 text-xs text-muted">
-        We don&apos;t post prices on this website as every client&apos;s needs are unique. After you submit this intake
-        form, we will reach out to you via call, text or email to set up a time to discuss our services and provide you
-        with a quote.
+        Every quote is based on your space. After you submit this intake form, we will reach out via call, text, or
+        email to discuss the work and provide a quote.
       </p>
     </form>
   );

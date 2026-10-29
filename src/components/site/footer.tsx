@@ -5,7 +5,13 @@ import { httpHref } from "@/lib/placeholders";
 import { Container } from "./container";
 import { Logo } from "./logo";
 
-export function Footer({ settings }: { settings: SiteSettings }) {
+export function Footer({
+  settings,
+  links = NAV_LINKS,
+}: {
+  settings: SiteSettings;
+  links?: readonly { href: string; label: string }[];
+}) {
   const social = [
     { label: "Google", href: httpHref(settings.social.googleBusiness) },
     { label: "Facebook", href: httpHref(settings.social.facebook) },
@@ -22,9 +28,11 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           <p className="mt-3 text-sm font-medium text-navy">{settings.serviceAreaLine}</p>
         </div>
         <div>
-          <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-muted">Explore</h2>
+          <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+            Explore
+          </h2>
           <ul className="mt-4 space-y-2">
-            {NAV_LINKS.map((link) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="text-sm text-navy hover:text-aqua">
                   {link.label}
@@ -34,11 +42,16 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           </ul>
         </div>
         <div>
-          <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-muted">Contact</h2>
+          <h2 className="font-sans text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+            Contact
+          </h2>
           <div className="mt-4 space-y-2 text-sm text-navy">
             <p>
               Call or text:{" "}
-              <a className="text-aqua hover:underline" href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}>
+              <a
+                className="text-aqua hover:underline"
+                href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}
+              >
                 {PUBLIC_PHONE}
               </a>
             </p>
@@ -53,7 +66,12 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             <ul className="mt-4 flex flex-wrap gap-3">
               {social.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href} className="text-sm text-aqua hover:underline" rel="noreferrer" target="_blank">
+                  <a
+                    href={item.href}
+                    className="text-sm text-aqua hover:underline"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     {item.label}
                   </a>
                 </li>

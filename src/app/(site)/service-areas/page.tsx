@@ -32,14 +32,15 @@ export default async function ServiceAreasPage() {
             </ul>
           )}
           <figure className="mt-10 overflow-hidden rounded-[20px] bg-white shadow-card">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/service-area-map.svg"
               alt="Map of Hampton Roads and nearby North Carolina towns served by Shoreline Cleaning LLC, with pins on Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, Williamsburg, Elizabeth City, and Moyock"
               className="h-auto w-full"
             />
           </figure>
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted">{page.outsideAreaNote}</p>
+          <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted">
+            {page.outsideAreaNote}
+          </p>
         </Container>
       </Section>
       <CtaBanner

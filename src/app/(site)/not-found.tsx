@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/site/container";
+
+export const metadata: Metadata = {
+  title: "Page not found | Shoreline Cleaning LLC",
+  robots: { index: false, follow: false },
+};
 
 export default function SiteNotFound() {
   return (

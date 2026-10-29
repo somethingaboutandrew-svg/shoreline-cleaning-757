@@ -25,7 +25,10 @@ export const metadata: Metadata = {
   description:
     "Shoreline Cleaning LLC provides residential and commercial cleaning for the 757 and surrounding Hampton Roads communities.",
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
   },
   verification: {
     other: {

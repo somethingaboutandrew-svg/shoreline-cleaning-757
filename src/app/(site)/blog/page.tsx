@@ -4,15 +4,19 @@ import type { Metadata } from "next";
 import { Container, Section } from "@/components/site/container";
 import { PageHero } from "@/components/site/page-hero";
 import { getFallbackContent, getPosts, getSettings } from "@/lib/content";
+import { isPlaceholderPost } from "@/lib/sample-content";
 import { buildMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSettings();
+  const [settings, posts] = await Promise.all([getSettings(), getPosts()]);
+  const hasRealPosts = posts.some((post) => !isPlaceholderPost(post));
   return buildMetadata({
     seo: {
       title: "Cleaning Tips | Shoreline Cleaning LLC",
-      description:
-        "Practical cleaning tips from Shoreline Cleaning LLC. Early posts are clearly marked as sample / placeholder articles.",
+      description: hasRealPosts
+        ? "Cleaning notes from Shoreline Cleaning LLC for homes and businesses in Virginia Beach and Hampton Roads."
+        : "Cleaning notes from Shoreline Cleaning LLC.",
+      noIndex: !hasRealPosts,
     },
     path: "/blog",
     settings,
@@ -27,14 +31,24 @@ export default async function BlogPage({
   const { category } = await searchParams;
   const [posts, content] = await Promise.all([getPosts(), Promise.resolve(getFallbackContent())]);
   const categories = content.blogCategories;
-  const filtered = category ? posts.filter((p) => p.category === category) : posts;
+  const indexable = posts.filter((post) => !isPlaceholderPost(post));
+  const visible = indexable.length ? indexable : posts;
+  const filtered = category ? visible.filter((post) => post.category === category) : visible;
 
   return (
     <>
       <PageHero
         eyebrow="Cleaning tips"
         heading="Notes for a cleaner home"
-        body="Three starter articles are included as clearly marked samples. Edit, unpublish, or replace them in Sanity."
+        crumbs={[
+          { name: "Home", href: "/" },
+          { name: "Blog", href: "/blog" },
+        ]}
+        body={
+          indexable.length
+            ? "Notes on keeping a home or workplace clean, from Shoreline Cleaning LLC."
+            : "Draft notes live here until a full article is published."
+        }
       />
       <Section>
         <Container>
@@ -74,8 +88,12 @@ export default async function BlogPage({
                           Sample article
                         </span>
                       ) : null}
-                      <span className="font-display text-2xl text-navy group-hover:text-aqua">{post.title}</span>
-                      <span className="mt-2 text-sm leading-relaxed text-muted">{post.excerpt}</span>
+                      <span className="font-display text-2xl text-navy group-hover:text-aqua">
+                        {post.title}
+                      </span>
+                      <span className="mt-2 text-sm leading-relaxed text-muted">
+                        {post.excerpt}
+                      </span>
                       <span className="mt-4 text-xs text-muted">
                         {new Date(post.publishedAt).toLocaleDateString("en-US", {
                           month: "long",
