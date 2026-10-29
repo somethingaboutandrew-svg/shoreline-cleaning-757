@@ -13,14 +13,19 @@ const RELATED_SERVICES: Record<string, readonly string[]> = {
     "post-move-out-cleaning",
   ],
   "deep-cleaning": [
-    "house-cleaning-virginia-beach",
-    "recurring-cleaning",
+    "pre-listing-cleaning-virginia-beach",
     "post-move-out-cleaning",
+    "house-cleaning-virginia-beach",
   ],
   "post-move-out-cleaning": [
+    "pre-listing-cleaning-virginia-beach",
     "deep-cleaning",
     "house-cleaning-virginia-beach",
-    "recurring-cleaning",
+  ],
+  "pre-listing-cleaning-virginia-beach": [
+    "post-move-out-cleaning",
+    "deep-cleaning",
+    "house-cleaning-virginia-beach",
   ],
   "small-business-cleaning-virginia-beach": [
     "commercial-office-cleaning",

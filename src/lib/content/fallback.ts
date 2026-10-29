@@ -89,6 +89,7 @@ export const fallbackContent: SiteContent = {
       "small-business-cleaning-virginia-beach",
       "deep-cleaning",
       "post-move-out-cleaning",
+      "pre-listing-cleaning-virginia-beach",
       "recurring-cleaning",
       "commercial-office-cleaning",
       "airbnb-turnover-cleaning",
@@ -488,6 +489,46 @@ export const fallbackContent: SiteContent = {
         title: "Commercial Cleaning in Virginia Beach | Shoreline Cleaning",
         description:
           "Small business and commercial cleaning in Virginia Beach, Norfolk, and Hampton Roads. Recurring or one-time, around your hours. Request a free quote.",
+      },
+    },
+    {
+      slug: "pre-listing-cleaning-virginia-beach",
+      name: "Pre-Listing & Real Estate Cleaning",
+      shortDescription:
+        "A detailed clean so a Virginia Beach home is ready for listing photos, showings, and buyer walkthroughs.",
+      overview:
+        "Pre-listing cleaning is for homes going on the market. The visit focuses on the rooms that show up in listing photos: kitchens, bathrooms, floors, and the main living areas.\n\nWe work from the notes you or your agent leave, including which rooms to emphasize and whether the home is still occupied. Move-out cleaning is a better fit when the house is empty and needs cabinets and appliance interiors. A deep cleaning is the closer match when the home will stay lived in after the photos.",
+      included: [
+        "Kitchen counters, sinks, and appliance exteriors",
+        "Bathrooms, including mirrors, fixtures, and glass",
+        "Floors vacuumed and mopped",
+        "Dusting of reachable surfaces",
+        "Living areas straightened for photos when the home is still occupied",
+        "Trash removed from the bins we service",
+      ],
+      notIncluded: [
+        "Staging, furniture moving, or junk hauling",
+        "Repairs, paint, or carpet replacement",
+        "Exterior windows and pressure washing",
+      ],
+      idealFor: [
+        "Homes preparing for listing photos in Virginia Beach and Hampton Roads",
+        "Showings and buyer walkthroughs",
+        "Agents who want the house photo-ready before it goes live",
+      ],
+      image: img(
+        "/images/living-room.webp",
+        "Living room cleaned and cleared for a real estate listing photo",
+      ),
+      relatedFaqIds: ["how-quoting-works"],
+      featured: true,
+      order: 9,
+      published: true,
+      pricingNote: "Quoted after intake. We'll follow up by phone, text, or email.",
+      seo: {
+        title: "Pre-Listing Cleaning in Virginia Beach | Shoreline Cleaning",
+        description:
+          "Pre-listing and real estate cleaning in Virginia Beach and Hampton Roads. Prepared for photos and showings. Request a quote from Shoreline Cleaning.",
       },
     },
   ],

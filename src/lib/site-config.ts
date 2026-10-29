@@ -34,6 +34,7 @@ export const OFFERED_SERVICES = [
   "Small Business & Commercial Cleaning",
   "Deep Cleaning",
   "Post Move-Out Cleaning",
+  "Pre-Listing & Real Estate Cleaning",
   "Recurring Cleaning (Weekly/Monthly)",
   "Commercial/Office Cleaning",
   "Airbnb/Short-Term Rental Turnover Cleaning",
