@@ -1,6 +1,7 @@
 import { createClient } from "next-sanity";
 import { GOOGLE_REVIEW_URL, PUBLIC_EMAIL, PUBLIC_PHONE } from "@/lib/site-config";
 import { isPlaceholderPost, isSampleCopy } from "@/lib/sample-content";
+import { OFFERED_SLUGS } from "./offered-slugs";
 import { fallbackContent } from "./fallback";
 import type {
   AboutPage,
@@ -17,16 +18,6 @@ import type {
   SiteSettings,
   TeamMember,
 } from "./types";
-
-const OFFERED_SLUGS = new Set([
-  "deep-cleaning",
-  "post-move-out-cleaning",
-  "recurring-cleaning",
-  "commercial-office-cleaning",
-  "airbnb-turnover-cleaning",
-  "house-cleaning-virginia-beach",
-  "small-business-cleaning-virginia-beach",
-]);
 
 const HOME_TITLE = "Shoreline Cleaning | House & Commercial Cleaning, 757";
 const HOME_DESCRIPTION =
@@ -83,10 +74,25 @@ async function fetchOrFallback<T>(query: string, fallback: T): Promise<T> {
   const sanity = client();
   if (!sanity) return fallback;
   try {
-    const data = await sanity.fetch<T | null>(query);
+    const data = await sanity.fetch<T | null>(query, {}, { next: { revalidate: 60 } });
     return data ?? fallback;
   } catch {
     return fallback;
+  }
+}
+
+type Lookup<T> = { status: "unavailable" } | { status: "missing" } | { status: "found"; data: T };
+
+/** Per-slug read. A cache miss hits Sanity, so a doc published after the last deploy still resolves. */
+async function fetchLookup<T>(query: string, params: Record<string, unknown>): Promise<Lookup<T>> {
+  const sanity = client();
+  if (!sanity) return { status: "unavailable" };
+  try {
+    const data = await sanity.fetch<T | null>(query, params, { next: { revalidate: 60 } });
+    if (!data) return { status: "missing" };
+    return { status: "found", data };
+  } catch {
+    return { status: "unavailable" };
   }
 }
 
@@ -371,9 +377,74 @@ export async function getServices(): Promise<Service[]> {
   return (mapped.length ? mapped : live).map(localizeServiceSeo);
 }
 
+type RemoteService = {
+  slug?: string;
+  name?: string;
+  shortDescription?: string;
+  overview?: string;
+  included?: string[];
+  notIncluded?: string[];
+  idealFor?: string[];
+  featured?: boolean;
+  order?: number;
+  image?: { src?: string; alt?: string };
+  seoTitle?: string;
+  seoDescription?: string;
+  _updatedAt?: string;
+};
+
+function offeredFallbackServices(): Service[] {
+  return fallbackContent.services
+    .map(publicService)
+    .filter((service): service is Service => Boolean(service))
+    .sort((a, b) => a.order - b.order);
+}
+
+function applyRemoteService(service: RemoteService, base: Service): Service {
+  return localizeServiceSeo({
+    ...base,
+    slug: service.slug as string,
+    name: text(service.name, base.name),
+    shortDescription: text(service.shortDescription, base.shortDescription),
+    overview: text(service.overview, base.overview),
+    included: service.included?.length ? service.included : base.included,
+    notIncluded: service.notIncluded?.length ? service.notIncluded : base.notIncluded,
+    idealFor: service.idealFor?.length ? service.idealFor : base.idealFor,
+    image: service.image?.src
+      ? { ...base.image, src: service.image.src, alt: service.image.alt || base.image.alt }
+      : base.image,
+    featured: service.featured ?? base.featured,
+    order: typeof service.order === "number" ? service.order : base.order,
+    published: true,
+    pricingNote: "",
+    updatedAt: typeof service._updatedAt === "string" ? service._updatedAt : undefined,
+    seo: {
+      ...base.seo,
+      title: text(service.seoTitle, base.seo.title),
+      description: text(service.seoDescription, base.seo.description),
+    },
+  });
+}
+
+const SERVICE_BY_SLUG = `*[_type == "service" && published == true && slug.current == $slug][0]{
+  _updatedAt,
+  "slug": slug.current, name, shortDescription, overview, included, notIncluded, idealFor,
+  featured, order, seoTitle, seoDescription,
+  "image": image{ "src": asset->url, alt }
+}`;
+
 export async function getService(slug: string): Promise<Service | undefined> {
+  if (!OFFERED_SLUGS.has(slug)) return undefined;
+  const lookedUp = await fetchLookup<RemoteService>(SERVICE_BY_SLUG, { slug });
+  if (lookedUp.status === "missing") return undefined;
+  if (lookedUp.status === "found" && lookedUp.data.slug && OFFERED_SLUGS.has(lookedUp.data.slug)) {
+    const live = offeredFallbackServices();
+    const base = live.find((service) => service.slug === lookedUp.data.slug) ?? live[0];
+    if (!base) return undefined;
+    return applyRemoteService(lookedUp.data, base);
+  }
   const services = await getServices();
-  return services.find((s) => s.slug === slug);
+  return services.find((service) => service.slug === slug);
 }
 
 export async function getGallery(): Promise<GalleryItem[]> {
@@ -458,7 +529,7 @@ export async function getFaqs(): Promise<Faq[]> {
   const overrides: Record<string, Partial<Faq>> = {
     "how-quoting-works": {
       answer:
-        "Simply fill out our intake form on this website and we'll set up a good time to call, text or email. Personalizing your cleaning plan is important to us and varies from client to client. Once we've reviewed your needs and discussed with you directly, we'll provide a quote.",
+        "Simply fill out our intake form on this website and we'll set up a good time to call, text or email. Every quote is based on your space after that short intake. Personalizing your cleaning plan is important to us and varies from client to client. Once we've reviewed your needs and discussed with you directly, we'll provide a quote.",
     },
     payment: {
       answer:
@@ -591,9 +662,73 @@ export async function getPageUpdatedAt(): Promise<Record<string, string | undefi
   }
 }
 
+type RemotePost = {
+  slug?: string;
+  title?: string;
+  excerpt?: string;
+  author?: string;
+  category?: string;
+  publishedAt?: string;
+  isPlaceholder?: boolean;
+  body?: unknown;
+  seoTitle?: string;
+  seoDescription?: string;
+  noIndex?: boolean;
+  _updatedAt?: string;
+  featuredImage?: { src?: string; alt?: string };
+  relatedSlugs?: string[];
+};
+
+function applyRemotePost(post: RemotePost, base: BlogPost | undefined): BlogPost {
+  const body = portableTextToParagraphs(post.body);
+  const next: BlogPost = {
+    slug: post.slug as string,
+    title: text(post.title, base?.title ?? ""),
+    excerpt: text(post.excerpt, base?.excerpt ?? ""),
+    author: text(post.author, base?.author ?? "Shoreline Cleaning LLC"),
+    category: text(post.category, base?.category ?? ""),
+    publishedAt: text(post.publishedAt, base?.publishedAt ?? ""),
+    featuredImage: post.featuredImage?.src
+      ? {
+          src: post.featuredImage.src,
+          alt: post.featuredImage.alt || base?.featuredImage.alt || (post.title as string),
+        }
+      : (base?.featuredImage ?? {
+          src: "/images/living-room.webp",
+          alt: "Shoreline Cleaning LLC",
+        }),
+    relatedSlugs: post.relatedSlugs?.filter(Boolean) ?? base?.relatedSlugs,
+    isPlaceholder: Boolean(post.isPlaceholder),
+    published: true,
+    updatedAt: typeof post._updatedAt === "string" ? post._updatedAt : undefined,
+    body: body.length ? body : (base?.body ?? []),
+    seo: {
+      title: text(post.seoTitle, base?.seo.title ?? `${post.title} | Shoreline Cleaning LLC`),
+      description: text(post.seoDescription, base?.seo.description ?? ""),
+      noIndex: post.noIndex || undefined,
+    },
+  };
+  if (isPlaceholderPost(next)) next.isPlaceholder = true;
+  return next;
+}
+
+const POST_BY_SLUG = `*[_type == "blogPost" && published == true && slug.current == $slug][0]{
+  "slug": slug.current, title, excerpt, author, publishedAt, isPlaceholder,
+  body, seoTitle, seoDescription, noIndex, _updatedAt,
+  "category": category->slug.current,
+  "featuredImage": featuredImage{ "src": asset->url, alt },
+  "relatedSlugs": relatedPosts[]->slug.current
+}`;
+
 export async function getPost(slug: string): Promise<BlogPost | undefined> {
+  const lookedUp = await fetchLookup<RemotePost>(POST_BY_SLUG, { slug });
+  if (lookedUp.status === "missing") return undefined;
+  if (lookedUp.status === "found" && lookedUp.data.slug && lookedUp.data.title) {
+    const base = fallbackContent.posts.find((post) => post.slug === lookedUp.data.slug);
+    return applyRemotePost(lookedUp.data, base);
+  }
   const posts = await getPosts();
-  return posts.find((p) => p.slug === slug);
+  return posts.find((post) => post.slug === slug);
 }
 
 export async function getServiceAreas(): Promise<ServiceAreasPage> {

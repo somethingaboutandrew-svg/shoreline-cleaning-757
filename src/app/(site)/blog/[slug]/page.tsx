@@ -9,7 +9,8 @@ import { getPost, getPosts, getSettings } from "@/lib/content";
 import { isPlaceholderPost } from "@/lib/sample-content";
 import { buildMetadata } from "@/lib/seo";
 
-export const dynamicParams = false;
+// Unknown slugs are resolved on demand (see middleware) so a Sanity publish does not wait on a deploy.
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const posts = await getPosts();

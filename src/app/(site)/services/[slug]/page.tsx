@@ -13,7 +13,8 @@ import { getFaqs, getService, getServices, getSettings } from "@/lib/content";
 import { relatedServicesFor } from "@/lib/content/related-services";
 import { buildMetadata, serviceJsonLd } from "@/lib/seo";
 
-export const dynamicParams = false;
+// Unknown slugs are resolved on demand (see middleware) so a Sanity publish does not wait on a deploy.
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const services = await getServices();
