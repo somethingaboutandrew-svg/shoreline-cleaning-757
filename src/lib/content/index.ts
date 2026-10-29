@@ -172,6 +172,7 @@ export async function getHome(): Promise<HomePageContent> {
       "small-business-cleaning-virginia-beach",
       "deep-cleaning",
       "post-move-out-cleaning",
+      "pre-listing-cleaning-virginia-beach",
       "recurring-cleaning",
       "commercial-office-cleaning",
       "airbnb-turnover-cleaning",
