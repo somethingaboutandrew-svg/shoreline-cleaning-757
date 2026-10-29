@@ -31,43 +31,45 @@ export const fallbackContent: SiteContent = {
       href: "/contact",
     },
     footerNote:
-      "Shoreline Cleaning LLC provides residential and commercial cleaning in the 757 and surrounding Hampton Roads communities. Quotes are provided after a short intake — by phone, text, or email.",
+      "Shoreline Cleaning LLC provides residential and commercial cleaning in the 757 and surrounding Hampton Roads communities. Quotes are provided after a short intake, by phone, text, or email.",
     cookieBannerEnabled: false,
     googleReviewUrl: "https://g.page/r/CWqcTHq4FPDNEBM/review",
     googleReviewButtonLabel: "Read or Leave a Review on Google",
     seo: {
       title: "Shoreline Cleaning LLC | Residential & Commercial Cleaning in the 757",
       description:
-        "Shoreline Cleaning LLC is a locally focused cleaning company serving the 757 and surrounding Hampton Roads communities. Request a free quote — we'll follow up by call, text, or email.",
+        "Shoreline Cleaning LLC is a locally focused cleaning company serving the 757 and surrounding Hampton Roads communities. Request a free quote. We'll follow up by call, text, or email.",
       ogImage: img("/og.jpg", "Shoreline Cleaning LLC", 1200, 630),
     },
   },
   home: {
     seo: {
-      title: "House Cleaning in Virginia Beach | Shoreline Cleaning LLC",
+      title: "Shoreline Cleaning | House & Commercial Cleaning, 757",
       description:
-        "House cleaning in Virginia Beach and the 757 from Shoreline Cleaning LLC. Residential and commercial service across Hampton Roads. Request a free quote — we'll follow up by call, text, or email.",
+        "House and commercial cleaning in Hampton Roads from Shoreline Cleaning LLC. Serving Virginia Beach and the 757. Request a free quote.",
     },
     heroEyebrow: "757 · Hampton Roads",
     heroHeadline: "Fresh, careful cleaning for homes and businesses",
     heroSubheadline:
-      "Shoreline Cleaning LLC is a locally focused residential and commercial cleaning company serving the 757 and surrounding Hampton Roads communities. Tell us about your space — we'll follow up with a quote by call, text, or email.",
+      "Shoreline Cleaning LLC is a locally focused residential and commercial cleaning company serving the 757 and surrounding Hampton Roads communities. Tell us about your space. We'll follow up with a quote by call, text, or email.",
     heroPrimaryCta: "Request a Free Quote",
     heroSecondaryCta: "Call or Text Us",
     heroImage: img(
-      "/images/hero-kitchen.jpg",
+      "/images/hero-kitchen.webp",
       "Bright, professionally cleaned kitchen with white cabinets, a navy island, and morning light",
-      1792,
-      1008,
+      1600,
+      900,
     ),
     highlights: [
       {
         title: "Locally focused",
-        description: "Built for neighbors and businesses across the 757 and nearby Hampton Roads communities.",
+        description:
+          "Built for neighbors and businesses across the 757 and nearby Hampton Roads communities.",
       },
       {
         title: "Flexible scheduling",
-        description: "One-time, move-out, or recurring visits — we'll work with the timing that fits your space.",
+        description:
+          "One-time, move-out, or recurring visits. We'll work with the timing that fits your space.",
       },
       {
         title: "Residential & commercial",
@@ -75,21 +77,25 @@ export const fallbackContent: SiteContent = {
       },
       {
         title: "Satisfaction-focused service",
-        description: "Clear communication, careful work, and a walkthrough of what you need before we quote.",
+        description:
+          "Clear communication, careful work, and a walkthrough of what you need before we quote.",
       },
     ],
     introHeading: "Cleaning that feels organized, not rushed",
     introBody:
-      "Shoreline Cleaning LLC is a locally owned cleaning company serving the 757 and surrounding Hampton Roads communities. We keep the process simple: you fill out a short intake, we follow up to discuss the details, and you receive a quote by phone, text, or email before any work is scheduled. No published price list — every space is different, and we'd rather quote yours accurately.",
+      "Shoreline Cleaning LLC is a locally owned cleaning company serving the 757 and surrounding Hampton Roads communities. We keep the process simple: you fill out a short intake, we follow up to discuss the details, and you receive a quote by phone, text, or email before any work is scheduled. Every space is different, and we'd rather quote yours accurately.",
     featuredServiceSlugs: [
-      "standard-residential-cleaning",
+      "house-cleaning-virginia-beach",
+      "small-business-cleaning-virginia-beach",
       "deep-cleaning",
+      "post-move-out-cleaning",
       "recurring-cleaning",
       "commercial-office-cleaning",
+      "airbnb-turnover-cleaning",
     ],
     howItWorksHeading: "How a quote works",
     howItWorksIntro:
-      "There are no prices on this site. After you send a short intake, the owner follows up to talk through the work and send a quote.",
+      "After you send a short intake, the owner follows up to talk through the work and send a quote.",
     howItWorksSteps: [
       {
         title: "Request a quote",
@@ -104,21 +110,21 @@ export const fallbackContent: SiteContent = {
       {
         title: "Enjoy a cleaner space",
         description:
-          "If the quote is a fit, we schedule the visit and show up prepared — then leave your space fresh and organized.",
+          "If the quote is a fit, we schedule the visit and show up prepared, then leave your space fresh and organized.",
       },
     ],
     beforeAfterHeading: "See the difference",
     beforeAfterIntro:
-      "A careful clean should be easy to see. These sample photos show the kind of reset we aim for — replace them in Sanity with your own work.",
+      "A careful clean should be easy to see. These sample photos show the kind of reset we aim for. Replace them in Sanity with your own work.",
     featuredBeforeAfterId: "kitchen-reset",
     reviewsHeading: "What customers say",
     serviceAreaHeading: "Where we work",
     serviceAreaBody:
-      "Serving the 757 and surrounding Hampton Roads communities. City-by-city coverage will be listed here as it's confirmed. If you're nearby and not sure we reach you, request a quote anyway — we'll let you know.",
+      "Serving the 757 and surrounding Hampton Roads communities. City-by-city coverage will be listed here as it's confirmed. If you're nearby and not sure we reach you, request a quote anyway. We'll let you know.",
     faqHeading: "Quick answers",
     closingHeading: "Ready for a cleaner space?",
     closingBody:
-      "Send a short intake and we'll follow up with a quote by phone, text, or email. No prices listed online — every home and business is quoted individually.",
+      "Send a short intake and we'll follow up with a quote by phone, text, or email. Every home and business is quoted individually.",
   },
   about: {
     seo: {
@@ -129,7 +135,7 @@ export const fallbackContent: SiteContent = {
     heading: "A local cleaning company with a simple promise",
     storyHeading: "Our story",
     story: [
-      "Shoreline Cleaning LLC is a locally focused residential and commercial cleaning company serving the 757 and surrounding Hampton Roads communities. The name matches the region we live in — coastal Virginia, everyday homes, offices, and rentals that deserve careful work.",
+      "Shoreline Cleaning LLC is a locally focused residential and commercial cleaning company serving the 757 and surrounding Hampton Roads communities. The name matches the region we live in: coastal Virginia, everyday homes, offices, and rentals that deserve careful work.",
       "We're building this company around clear communication and a straightforward quote process. You tell us about the space. We follow up by call, text, or email. You get a quote before anything is scheduled.",
       "This page is editable in Sanity. Replace this story with the owner's real background, values, and photos when you're ready.",
     ],
@@ -148,27 +154,30 @@ export const fallbackContent: SiteContent = {
       {
         title: "Locally focused",
         description:
-          "We serve the 757 and surrounding Hampton Roads communities — not a national franchise template.",
+          "We serve the 757 and surrounding Hampton Roads communities, not a national franchise template.",
       },
     ],
     valuesHeading: "How we work",
     values: [
       {
         title: "Careful",
-        description: "We treat kitchens, desks, and bathrooms as if the next person walking in is you.",
+        description:
+          "We treat kitchens, desks, and bathrooms as if the next person walking in is you.",
       },
       {
         title: "Clear",
-        description: "You'll know what is included, what is not, and how we'll follow up on your quote.",
+        description:
+          "You'll know what is included, what is not, and how we'll follow up on your quote.",
       },
       {
         title: "Respectful",
-        description: "On-time communication, attention to the details you flag, and no pressure tactics.",
+        description:
+          "On-time communication, attention to the details you flag, and no pressure tactics.",
       },
     ],
     communityHeading: "Part of the 757",
     community:
-      "Hampton Roads is home. We serve neighbors and local businesses across the 757 and nearby communities. We don't list specific cities until they're confirmed in our service-area settings — if you're close and unsure, just ask.",
+      "Hampton Roads is home. We serve neighbors and local businesses across the 757 and nearby communities. We don't list specific cities until they're confirmed in our service-area settings. If you're close and unsure, just ask.",
   },
   services: [
     {
@@ -191,7 +200,10 @@ export const fallbackContent: SiteContent = {
         "Laundry, dishes, or organization projects unless noted on the quote",
       ],
       idealFor: ["Occupied homes", "Weekly or biweekly upkeep", "A reliable maintenance clean"],
-      image: img("/images/living-room.jpg", "Professionally cleaned living room with a white sofa and navy pillows"),
+      image: img(
+        "/images/living-room.webp",
+        "Professionally cleaned living room with a white sofa and navy pillows",
+      ),
       relatedFaqIds: ["how-quoting-works", "what-to-prepare"],
       featured: true,
       order: 1,
@@ -221,8 +233,15 @@ export const fallbackContent: SiteContent = {
         "Mold remediation",
         "Exterior pressure washing",
       ],
-      idealFor: ["Seasonal resets", "First-time cleans", "Homes that haven't been detailed in a while"],
-      image: img("/images/bathroom.jpg", "Bright bathroom with glass shower and neatly folded navy towels"),
+      idealFor: [
+        "Seasonal resets",
+        "First-time cleans",
+        "Homes that haven't been detailed in a while",
+      ],
+      image: img(
+        "/images/bathroom.webp",
+        "Bright bathroom with glass shower and neatly folded navy towels",
+      ),
       featured: true,
       order: 2,
       published: true,
@@ -230,7 +249,7 @@ export const fallbackContent: SiteContent = {
       seo: {
         title: "Deep Cleaning | Shoreline Cleaning LLC",
         description:
-          "Deep cleaning for homes in the 757. Shoreline Cleaning LLC quotes after a short intake — no online price list.",
+          "Deep cleaning for homes in the 757. Shoreline Cleaning LLC quotes after a short intake.",
       },
     },
     {
@@ -251,8 +270,15 @@ export const fallbackContent: SiteContent = {
         "Carpet steam cleaning unless quoted separately",
         "Wall painting or repair",
       ],
-      idealFor: ["Renters ending a lease", "Sellers before closing", "Buyers walking into an empty home"],
-      image: img("/images/move-out.jpg", "Empty, freshly cleaned living room ready for new occupants"),
+      idealFor: [
+        "Renters ending a lease",
+        "Sellers before closing",
+        "Buyers walking into an empty home",
+      ],
+      image: img(
+        "/images/move-out.webp",
+        "Empty, freshly cleaned living room ready for new occupants",
+      ),
       featured: false,
       order: 3,
       published: true,
@@ -266,9 +292,10 @@ export const fallbackContent: SiteContent = {
     {
       slug: "recurring-cleaning",
       name: "Recurring Cleaning",
-      shortDescription: "Weekly, biweekly, or monthly visits that keep the home consistently fresh.",
+      shortDescription:
+        "Weekly, biweekly, or monthly visits that keep the home consistently fresh.",
       overview:
-        "Recurring cleaning is a scheduled cadence — weekly, biweekly, monthly, or a custom rhythm. After the first visit, we learn the home and keep a consistent checklist so you're not re-explaining the kitchen every time.",
+        "Recurring cleaning is a scheduled cadence: weekly, biweekly, monthly, or a custom rhythm. After the first visit, we learn the home and keep a consistent checklist so you're not re-explaining the kitchen every time.",
       included: [
         "A standing checklist tailored after the first visit",
         "Kitchen, bathrooms, floors, and living areas",
@@ -276,7 +303,12 @@ export const fallbackContent: SiteContent = {
         "Notes for pets, kids, or rooms to skip",
       ],
       idealFor: ["Busy households", "Anyone who wants the home to stay ahead of clutter and dust"],
-      image: img("/images/hero-kitchen.jpg", "Airy kitchen kept consistently clean on a recurring schedule", 1792, 1008),
+      image: img(
+        "/images/hero-kitchen.webp",
+        "Airy kitchen kept consistently clean on a recurring schedule",
+        1600,
+        900,
+      ),
       featured: true,
       order: 4,
       published: true,
@@ -304,7 +336,10 @@ export const fallbackContent: SiteContent = {
         "After-hours alarm handling without written instructions",
       ],
       idealFor: ["Small offices", "Professional suites", "Shared workspaces"],
-      image: img("/images/office.jpg", "Clean, bright office with organized desks and large windows"),
+      image: img(
+        "/images/office.webp",
+        "Clean, bright office with organized desks and large windows",
+      ),
       featured: true,
       order: 5,
       published: true,
@@ -332,7 +367,10 @@ export const fallbackContent: SiteContent = {
         "Restocking supplies you don't provide",
       ],
       idealFor: ["Airbnb hosts", "VRBO and similar short-term rentals", "Corporate apartments"],
-      image: img("/images/bedroom.jpg", "Guest bedroom with white linens and a navy throw, staged after a turnover clean"),
+      image: img(
+        "/images/bedroom.webp",
+        "Guest bedroom with white linens and a navy throw, staged after a turnover clean",
+      ),
       featured: false,
       order: 6,
       published: true,
@@ -361,7 +399,10 @@ export const fallbackContent: SiteContent = {
         "Touch-up painting",
       ],
       idealFor: ["Remodels", "New finishes", "Builders and homeowners after construction"],
-      image: img("/images/kitchen-after.jpg", "Spotless modern kitchen after a detailed post-construction clean"),
+      image: img(
+        "/images/kitchen-after.webp",
+        "Spotless modern kitchen after a detailed post-construction clean",
+      ),
       featured: false,
       order: 7,
       published: true,
@@ -372,47 +413,138 @@ export const fallbackContent: SiteContent = {
           "Post-construction cleaning in the 757 from Shoreline Cleaning LLC. Request a quote after intake.",
       },
     },
+    {
+      slug: "house-cleaning-virginia-beach",
+      name: "House Cleaning",
+      shortDescription:
+        "Recurring and one-time house cleaning for homes in Virginia Beach, Norfolk, Chesapeake, and across Hampton Roads.",
+      overview:
+        "A standard house cleaning covers the rooms you use every day: kitchen counters, sinks, and appliance fronts; bathroom sinks, toilets, tubs, showers, and mirrors; dusting of reachable surfaces; and vacuuming and mopping floors.\n\nYou can book weekly, every two weeks, monthly, or as a one-time clean. If the home has not had a professional clean in a while, start with a deep cleaning. Moving in or out is handled as move-in and move-out cleaning.",
+      included: [
+        "Kitchen counters, sinks, and appliance exteriors",
+        "Bathroom sinks, toilets, tubs, showers, and mirrors",
+        "Dusting of reachable surfaces, shelves, and fixtures",
+        "Vacuuming and mopping of finished floors",
+        "Bedrooms and living areas tidied and wiped down",
+        "Trash removed from the bins we service",
+      ],
+      notIncluded: [
+        "Inside the oven, refrigerator, or cabinets unless added to the quote",
+        "Exterior windows",
+        "Laundry, dishes, or organizing projects unless noted on the quote",
+      ],
+      idealFor: [
+        "Busy households in Virginia Beach and the 757",
+        "Weekly, biweekly, or monthly upkeep",
+        "A one-time clean before guests or an event",
+      ],
+      image: img(
+        "/images/living-room.webp",
+        "Clean, bright living room in a Virginia Beach home after a house cleaning",
+      ),
+      relatedFaqIds: ["how-quoting-works", "what-to-prepare"],
+      featured: true,
+      order: 1,
+      published: true,
+      pricingNote: "Quoted after intake. We'll follow up by phone, text, or email.",
+      seo: {
+        title: "House Cleaning in Virginia Beach | Shoreline Cleaning LLC",
+        description:
+          "House cleaning in Virginia Beach, Norfolk, Chesapeake, and Hampton Roads. Weekly, biweekly, or one-time. Request a free quote from Shoreline Cleaning.",
+      },
+    },
+    {
+      slug: "small-business-cleaning-virginia-beach",
+      name: "Small Business & Commercial Cleaning",
+      shortDescription:
+        "Recurring and one-time cleaning for small offices, retail shops, and commercial spaces in Virginia Beach and Hampton Roads.",
+      overview:
+        "Small business and commercial cleaning covers floors, trash, restrooms, break rooms, entryways, and dusting for offices, shops, and studios.\n\nMost clients choose a recurring schedule around their hours. One-time cleans are available before an opening, after a renovation, or at the end of a lease. Office-only spaces can use the office cleaning service.",
+      included: [
+        "Floors vacuumed and mopped",
+        "Trash and recycling emptied",
+        "Restrooms cleaned and sanitized",
+        "Break rooms and kitchenettes wiped down",
+        "Entryways, counters, and customer-facing areas",
+        "Dusting of reachable surfaces",
+        "Interior glass on doors and partitions as quoted",
+      ],
+      notIncluded: [
+        "Medical, industrial, or other specialized cleaning unless separately scoped",
+        "Exterior pressure washing",
+        "After-hours alarm handling without written instructions",
+      ],
+      idealFor: [
+        "Small offices and professional suites",
+        "Retail shops and showrooms",
+        "Businesses that need cleaning before or after hours",
+      ],
+      image: img("/images/office.webp", "Clean small business office space in Virginia Beach"),
+      featured: true,
+      order: 8,
+      published: true,
+      pricingNote: "Quoted after intake. We'll follow up by phone, text, or email.",
+      seo: {
+        title: "Commercial Cleaning in Virginia Beach | Shoreline Cleaning",
+        description:
+          "Small business and commercial cleaning in Virginia Beach, Norfolk, and Hampton Roads. Recurring or one-time, around your hours. Request a free quote.",
+      },
+    },
   ],
   gallery: [
     {
       id: "gal-kitchen",
-      image: img("/images/hero-kitchen.jpg", "Bright professionally cleaned kitchen with a navy island", 1792, 1008),
-      caption: "Kitchen reset — sample photo, replace in Sanity",
+      image: img(
+        "/images/hero-kitchen.webp",
+        "Bright professionally cleaned kitchen with a navy island",
+        1600,
+        900,
+      ),
+      caption: "Kitchen reset: sample photo, replace in Sanity",
       category: "kitchens",
       order: 1,
     },
     {
       id: "gal-living",
-      image: img("/images/living-room.jpg", "Professionally cleaned living room with abundant daylight"),
-      caption: "Living space — sample photo, replace in Sanity",
+      image: img(
+        "/images/living-room.webp",
+        "Professionally cleaned living room with abundant daylight",
+      ),
+      caption: "Living space: sample photo, replace in Sanity",
       category: "homes",
       order: 2,
     },
     {
       id: "gal-bath",
-      image: img("/images/bathroom.jpg", "Clean bathroom with glass shower and folded navy towels"),
-      caption: "Bathroom detail — sample photo, replace in Sanity",
+      image: img(
+        "/images/bathroom.webp",
+        "Clean bathroom with glass shower and folded navy towels",
+      ),
+      caption: "Bathroom detail: sample photo, replace in Sanity",
       category: "bathrooms",
       order: 3,
     },
     {
       id: "gal-office",
-      image: img("/images/office.jpg", "Clean commercial office with organized desks"),
-      caption: "Office cleaning — sample photo, replace in Sanity",
+      image: img("/images/office.webp", "Clean commercial office with organized desks"),
+      caption: "Office cleaning: sample photo, replace in Sanity",
       category: "commercial",
       order: 4,
     },
     {
       id: "gal-bedroom",
-      image: img("/images/bedroom.jpg", "Short-term rental bedroom staged after turnover cleaning"),
-      caption: "Rental turnover — sample photo, replace in Sanity",
+      image: img(
+        "/images/bedroom.webp",
+        "Short-term rental bedroom staged after turnover cleaning",
+      ),
+      caption: "Rental turnover: sample photo, replace in Sanity",
       category: "homes",
       order: 5,
     },
     {
       id: "gal-moveout",
-      image: img("/images/move-out.jpg", "Empty living room after a move-out clean"),
-      caption: "Move-out — sample photo, replace in Sanity",
+      image: img("/images/move-out.webp", "Empty living room after a move-out clean"),
+      caption: "Move-out: sample photo, replace in Sanity",
       category: "move-out",
       order: 6,
     },
@@ -424,11 +556,11 @@ export const fallbackContent: SiteContent = {
       caption: "",
       category: "kitchens",
       before: img(
-        "/images/kitchen-before.jpg",
+        "/images/kitchen-before.webp",
         "Lived-in family kitchen before cleaning, with a cluttered island, dishes in the sink, and crumbs on the floor",
       ),
       after: img(
-        "/images/kitchen-after.jpg",
+        "/images/kitchen-after.webp",
         "The same kitchen after a professional clean, with clear counters, an empty sink, and a wiped floor",
       ),
       order: 1,
@@ -439,10 +571,13 @@ export const fallbackContent: SiteContent = {
       caption: "",
       category: "bathrooms",
       before: img(
-        "/images/bathroom-before.jpg",
+        "/images/bathroom-before.webp",
         "Lived-in bathroom before cleaning, with clustered bottles and a dull mirror",
       ),
-      after: img("/images/bathroom.jpg", "Bathroom after a professional clean, with folded towels and clear surfaces"),
+      after: img(
+        "/images/bathroom.webp",
+        "Bathroom after a professional clean, with folded towels and clear surfaces",
+      ),
       order: 2,
     },
   ],
@@ -486,7 +621,7 @@ export const fallbackContent: SiteContent = {
       id: "how-quoting-works",
       question: "How do I get a quote?",
       answer:
-        "Fill out the intake form on the Contact page. There are no prices listed on the website. The owner will call, text, or email — whichever you prefer — to discuss the work and give you a quote.",
+        "Fill out the intake form on the Contact page. Every quote is based on your space after a short intake. The owner will call, text, or email, whichever you prefer, to discuss the work and give you a quote.",
       category: "Quotes",
       order: 1,
     },
@@ -502,7 +637,7 @@ export const fallbackContent: SiteContent = {
       id: "supplies",
       question: "Do you bring supplies?",
       answer:
-        "Yes — standard cleaning supplies and equipment are part of a typical visit. If you prefer we use products you already have, mention that on the intake form.",
+        "Yes. Standard cleaning supplies and equipment are part of a typical visit. If you prefer we use products you already have, mention that on the intake form.",
       category: "Service details",
       order: 3,
     },
@@ -541,22 +676,23 @@ export const fallbackContent: SiteContent = {
     {
       slug: "how-to-prepare-for-a-professional-house-cleaning",
       title: "How to Prepare for a Professional House Cleaning",
-      excerpt: "A short, practical checklist so your cleaning visit goes smoothly. Sample article — replace in Sanity.",
+      excerpt:
+        "A short, practical checklist so your cleaning visit goes smoothly. Sample article. Replace in Sanity.",
       author: "Shoreline Cleaning LLC",
       category: "preparing",
       publishedAt: "2026-09-01",
-      featuredImage: img("/images/living-room.jpg", "Tidy living room ready for a professional cleaning visit"),
-      relatedSlugs: [
-        "deep-cleaning-vs-standard-cleaning",
-        "move-out-cleaning-checklist",
-      ],
+      featuredImage: img(
+        "/images/living-room.webp",
+        "Tidy living room ready for a professional cleaning visit",
+      ),
+      relatedSlugs: ["deep-cleaning-vs-standard-cleaning", "move-out-cleaning-checklist"],
       isPlaceholder: true,
       published: true,
       body: [
         "This is a sample / placeholder article for Shoreline Cleaning LLC. Replace it in Sanity with your own voice before you treat it as published expertise.",
-        "A little preparation helps a cleaning visit go further. You don't need to pre-clean — that's our job — but clearing personal items and flagging priorities makes the time on site more useful.",
+        "A little preparation helps a cleaning visit go further. You don't need to pre-clean. That's our job. But clearing personal items and flagging priorities makes the time on site more useful.",
         "Pick up clothing, toys, and papers from floors and counters. Empty the sink if you can. Secure pets, or let us know if they will be home. Write down rooms to skip and products you prefer we avoid.",
-        "If this is a first visit, photos of kitchens and bathrooms on the intake form help us quote more accurately. There is no online price list; we quote after we understand the space.",
+        "If this is a first visit, photos of kitchens and bathrooms on the intake form help us quote more accurately. We quote after we understand the space.",
       ],
       seo: {
         title: "How to Prepare for a Professional House Cleaning | Shoreline Cleaning LLC",
@@ -567,11 +703,15 @@ export const fallbackContent: SiteContent = {
     {
       slug: "deep-cleaning-vs-standard-cleaning",
       title: "Deep Cleaning vs. Standard Cleaning: What's the Difference?",
-      excerpt: "When a regular clean is enough — and when a deeper visit is the better fit. Sample article.",
+      excerpt:
+        "When a regular clean is enough, and when a deeper visit is the better fit. Sample article.",
       author: "Shoreline Cleaning LLC",
       category: "types-of-cleaning",
       publishedAt: "2026-09-04",
-      featuredImage: img("/images/bathroom.jpg", "Detailed bathroom after a thorough professional cleaning"),
+      featuredImage: img(
+        "/images/bathroom.webp",
+        "Detailed bathroom after a thorough professional cleaning",
+      ),
       relatedSlugs: [
         "how-to-prepare-for-a-professional-house-cleaning",
         "move-out-cleaning-checklist",
@@ -581,7 +721,7 @@ export const fallbackContent: SiteContent = {
       body: [
         "This is a sample / placeholder article. Edit or unpublish it in Sanity. It is not a claim of specialized training.",
         "Standard cleaning is maintenance: kitchens, baths, floors, dusting, and the rooms you live in. It's the right cadence when the home is already in decent shape.",
-        "Deep cleaning adds time and detail — baseboards, build-up, appliance edges, and the spots a weekly visit doesn't linger on. First-time cleans and seasonal resets often start here.",
+        "Deep cleaning adds time and detail: baseboards, build-up, appliance edges, and the spots a weekly visit doesn't linger on. First-time cleans and seasonal resets often start here.",
         "Not sure which you need? Describe the home on the intake form. We'll recommend a starting point when we call, text, or email your quote.",
       ],
       seo: {
@@ -593,11 +733,15 @@ export const fallbackContent: SiteContent = {
     {
       slug: "move-out-cleaning-checklist",
       title: "A Move-Out Cleaning Checklist for a Fresh Start",
-      excerpt: "What to handle before the keys are returned — and what a move-out clean usually covers. Sample article.",
+      excerpt:
+        "What to handle before the keys are returned, and what a move-out clean usually covers. Sample article.",
       author: "Shoreline Cleaning LLC",
       category: "moving",
       publishedAt: "2026-09-08",
-      featuredImage: img("/images/move-out.jpg", "Empty, freshly cleaned room after a move-out service"),
+      featuredImage: img(
+        "/images/move-out.webp",
+        "Empty, freshly cleaned room after a move-out service",
+      ),
       relatedSlugs: [
         "how-to-prepare-for-a-professional-house-cleaning",
         "deep-cleaning-vs-standard-cleaning",
@@ -628,7 +772,7 @@ export const fallbackContent: SiteContent = {
       "Serving the 757 and surrounding Hampton Roads communities. Individual cities and neighborhoods will appear here as they're added in Sanity. We are not listing specific cities until they're confirmed.",
     areas: [],
     outsideAreaNote:
-      "Outside the listed area — or not sure? Request a quote anyway. If we can help, we'll say so when we follow up. If we can't, we'll tell you that too.",
+      "Outside the listed area, or not sure? Request a quote anyway. If we can help, we'll say so when we follow up. If we can't, we'll tell you that too.",
   },
   legal: [
     {
@@ -638,7 +782,7 @@ export const fallbackContent: SiteContent = {
       isTemplate: true,
       body: [
         "TEMPLATE — review with counsel before using this as your official privacy policy. This placeholder describes, at a high level, how a small service business website typically handles inquiry forms.",
-        "Shoreline Cleaning LLC (\"we\") operates www.shorelinecleaning757.com. When you submit the quote form, we collect the information you enter (name, contact details, property details, and message) so we can respond by call, text, or email.",
+        'Shoreline Cleaning LLC ("we") operates www.shorelinecleaning757.com. When you submit the quote form, we collect the information you enter (name, contact details, property details, and message) so we can respond by call, text, or email.',
         "We do not sell your information. We do not collect payment card numbers through this website. Form submissions may be processed by our email provider (for example Resend) so the message reaches our inbox.",
         "Analytics tools are disabled by default. If they are turned on later, this page should be updated to name the provider.",
         "Contact us using the details in Site Settings to ask questions about this policy. Replace this template before launch.",

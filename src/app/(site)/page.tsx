@@ -18,6 +18,7 @@ import {
   getServices,
   getSettings,
 } from "@/lib/content";
+import { isSampleCopy } from "@/lib/sample-content";
 import { buildMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -34,10 +35,15 @@ export default async function HomePage() {
     getFaqs(),
     getBeforeAfter(),
   ]);
-  const featured = services.filter((s) => home.featuredServiceSlugs.includes(s.slug));
+  const featured = home.featuredServiceSlugs.flatMap((slug) => {
+    const service = services.find((item) => item.slug === slug);
+    return service ? [service] : [];
+  });
   const homeReviews = reviews.filter((r) => r.showOnHomepage);
   const homeFaqs = faqs.slice(0, 4);
-  const pair = pairs.find((p) => p.id === home.featuredBeforeAfterId) ?? pairs[0];
+  const pair =
+    pairs.find((item) => item.id === home.featuredBeforeAfterId && !item.isSample) ??
+    pairs.find((item) => !item.isSample);
 
   return (
     <>
@@ -48,7 +54,7 @@ export default async function HomePage() {
             alt={home.heroImage.alt}
             fill
             priority
-            loading="eager"
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover"
           />
@@ -56,11 +62,15 @@ export default async function HomePage() {
         </div>
         <Container className="relative grid min-h-[88vh] items-end py-16 sm:items-center sm:py-24">
           <div className="max-w-2xl text-foam">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky">{home.heroEyebrow}</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky">
+              {home.heroEyebrow}
+            </p>
             <h1 className="mt-4 font-display text-4xl leading-[1.1] text-foam sm:text-5xl lg:text-6xl">
               {home.heroHeadline}
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-sky sm:text-lg">{home.heroSubheadline}</p>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-sky sm:text-lg">
+              {home.heroSubheadline}
+            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="min-w-[13.5rem] justify-center text-center">
                 <Link href="/contact">{home.heroPrimaryCta}</Link>
@@ -86,7 +96,9 @@ export default async function HomePage() {
       <Section>
         <Container className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-aqua">Shoreline Cleaning LLC</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-aqua">
+              Shoreline Cleaning LLC
+            </p>
             <h2 className="mt-3 text-3xl sm:text-4xl">{home.introHeading}</h2>
             <p className="mt-4 text-base leading-relaxed text-muted">{home.introBody}</p>
             <div className="mt-6">
@@ -97,11 +109,11 @@ export default async function HomePage() {
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] shadow-card">
             <Image
-              src="/images/living-room.jpg"
+              src="/images/living-room.webp"
               alt="Professionally cleaned living room with white sofa, navy pillows, and daylight"
               fill
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 1024px) 100vw, 640px"
             />
           </div>
         </Container>
@@ -112,9 +124,14 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-3xl sm:text-4xl">Featured services</h2>
-              <p className="mt-2 max-w-xl text-muted">Every service is quoted after a short intake.</p>
+              <p className="mt-2 max-w-xl text-muted">
+                Every service is quoted after a short intake.
+              </p>
             </div>
-            <Link href="/services" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-navy">
+            <Link
+              href="/services"
+              className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-navy"
+            >
               All services <ArrowRight className="size-4" />
             </Link>
           </div>
@@ -133,7 +150,9 @@ export default async function HomePage() {
           <ol className="mt-10 grid gap-6 lg:grid-cols-3">
             {home.howItWorksSteps.map((step, index) => (
               <li key={step.title} className="rounded-[20px] bg-white p-6 shadow-card">
-                <span className="font-display text-4xl text-sky">{String(index + 1).padStart(2, "0")}</span>
+                <span className="font-display text-4xl text-sky">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <h3 className="mt-3 text-2xl">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
               </li>
@@ -147,7 +166,9 @@ export default async function HomePage() {
           <Container className="grid items-center gap-10 lg:grid-cols-2">
             <div>
               <h2 className="text-3xl sm:text-4xl">{home.beforeAfterHeading}</h2>
-              <p className="mt-3 text-muted">{home.beforeAfterIntro}</p>
+              {isSampleCopy(home.beforeAfterIntro) ? null : (
+                <p className="mt-3 text-muted">{home.beforeAfterIntro}</p>
+              )}
             </div>
             <BeforeAfter pair={pair} />
           </Container>
@@ -175,19 +196,25 @@ export default async function HomePage() {
           <div>
             <h2 className="text-3xl sm:text-4xl">{home.serviceAreaHeading}</h2>
             <p className="mt-3 text-muted">{home.serviceAreaBody}</p>
-            <Link href="/service-areas" className="mt-6 inline-flex min-h-11 items-center font-semibold text-navy">
+            <Link
+              href="/service-areas"
+              className="mt-6 inline-flex min-h-11 items-center font-semibold text-navy"
+            >
               Service areas →
             </Link>
           </div>
           <div className="rounded-[20px] bg-sky-soft p-6">
             <p className="font-display text-2xl text-navy">{settings.serviceAreaLine}</p>
             <p className="mt-3 text-sm text-muted">
-              Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, Williamsburg, Elizabeth City, and
-              Moyock.
+              Virginia Beach, Norfolk, Chesapeake, Suffolk, Hampton, Newport News, Williamsburg,
+              Elizabeth City, and Moyock.
             </p>
             <p className="mt-4 text-sm text-navy">
               Call or text:{" "}
-              <a className="text-aqua hover:underline" href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}>
+              <a
+                className="text-aqua hover:underline"
+                href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}
+              >
                 {PUBLIC_PHONE}
               </a>
             </p>
@@ -205,7 +232,10 @@ export default async function HomePage() {
         <Container className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
           <div>
             <h2 className="text-3xl sm:text-4xl">{home.faqHeading}</h2>
-            <Link href="/faq" className="mt-4 inline-flex min-h-11 items-center font-semibold text-navy">
+            <Link
+              href="/faq"
+              className="mt-4 inline-flex min-h-11 items-center font-semibold text-navy"
+            >
               All FAQs →
             </Link>
           </div>

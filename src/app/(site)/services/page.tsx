@@ -26,7 +26,11 @@ export default async function ServicesPage() {
       <PageHero
         eyebrow="Services"
         heading="Cleaning services quoted for your space"
-        body="These are the services we provide. There are no prices on this website — send an intake and we'll follow up by call, text, or email."
+        crumbs={[
+          { name: "Home", href: "/" },
+          { name: "Services", href: "/services" },
+        ]}
+        body="These are the services we provide. Tell us about the space and we'll follow up by call, text, or email."
       />
       <Section>
         <Container>

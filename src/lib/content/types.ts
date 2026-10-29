@@ -103,17 +103,12 @@ export type Service = {
   order: number;
   published: boolean;
   pricingNote: string;
+  updatedAt?: string;
   seo: SeoFields;
 };
 
 export type GalleryCategory =
-  | "kitchens"
-  | "bathrooms"
-  | "homes"
-  | "commercial"
-  | "move-out"
-  | "before-after"
-  | "other";
+  "kitchens" | "bathrooms" | "homes" | "commercial" | "move-out" | "before-after" | "other";
 
 export type GalleryItem = {
   id: string;
@@ -131,6 +126,7 @@ export type BeforeAfterPair = {
   before: CmsImage;
   after: CmsImage;
   order: number;
+  isSample?: boolean;
 };
 
 export type Review = {
@@ -179,6 +175,7 @@ export type BlogPost = {
   relatedSlugs?: string[];
   isPlaceholder: boolean;
   published: boolean;
+  updatedAt?: string;
   seo: SeoFields;
 };
 

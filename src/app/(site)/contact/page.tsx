@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     seo: {
       title: "Request a Free Quote | Shoreline Cleaning LLC",
       description:
-        "Request a free cleaning quote from Shoreline Cleaning LLC. Fill out a short intake — we'll follow up by call, text, or email. No prices listed online.",
+        "Request a free cleaning quote from Shoreline Cleaning LLC. Fill out a short intake and we'll follow up by call, text, or email.",
     },
     path: "/contact",
     settings,
@@ -25,7 +25,7 @@ export default async function ContactPage() {
       <PageHero
         eyebrow="Quote request"
         heading="Tell us about the space. We'll quote it personally."
-        body="There are no prices on this website. After you submit this intake, we'll call, text, or email — whichever you prefer — to discuss the work and give you a quote."
+        body="Tell us about the space. After you submit this intake, we'll call, text, or email, whichever you prefer, to discuss the work and give you a quote."
       />
       <Section>
         <Container className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
@@ -43,11 +43,17 @@ export default async function ContactPage() {
               <h2 className="text-2xl">Prefer to reach us directly?</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 Feel free to call, text, or email if you have any questions. Call or text{" "}
-                <a className="font-medium text-aqua hover:underline" href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}>
+                <a
+                  className="font-medium text-aqua hover:underline"
+                  href={`tel:${PUBLIC_PHONE.replace(/\D/g, "")}`}
+                >
                   {PUBLIC_PHONE}
                 </a>{" "}
                 or email{" "}
-                <a className="font-medium text-aqua hover:underline" href={`mailto:${PUBLIC_EMAIL}`}>
+                <a
+                  className="font-medium text-aqua hover:underline"
+                  href={`mailto:${PUBLIC_EMAIL}`}
+                >
                   {PUBLIC_EMAIL}
                 </a>
                 .

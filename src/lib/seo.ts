@@ -1,12 +1,34 @@
 import type { Metadata } from "next";
-import { SITE_NAME, SITE_URL } from "@/lib/site-config";
-import type { CmsImage, SeoFields, SiteSettings } from "@/lib/content/types";
-import { realValue } from "@/lib/placeholders";
+import {
+  GOOGLE_REVIEW_URL,
+  PUBLIC_EMAIL,
+  PUBLIC_PHONE,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site-config";
+import type { CmsImage, SeoFields, Service, SiteSettings } from "@/lib/content/types";
+import { httpHref, realValue } from "@/lib/placeholders";
+
+const ORIGIN = SITE_URL.replace(/\/$/, "");
+
+export const ORGANIZATION_ID = `${ORIGIN}/#organization`;
+export const BUSINESS_ID = `${ORIGIN}/#business`;
+
+const SERVICE_AREA_CITIES: readonly (readonly [string, string])[] = [
+  ["Virginia Beach", "Virginia"],
+  ["Norfolk", "Virginia"],
+  ["Chesapeake", "Virginia"],
+  ["Suffolk", "Virginia"],
+  ["Hampton", "Virginia"],
+  ["Newport News", "Virginia"],
+  ["Williamsburg", "Virginia"],
+  ["Elizabeth City", "North Carolina"],
+  ["Moyock", "North Carolina"],
+];
 
 export function absoluteUrl(path = "/") {
-  const base = SITE_URL.replace(/\/$/, "");
   if (path.startsWith("http")) return path;
-  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+  return `${ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 export function buildMetadata({
@@ -55,20 +77,58 @@ export function buildMetadata({
   };
 }
 
+export function areaServedJsonLd() {
+  return [
+    ...SERVICE_AREA_CITIES.map(([name, region]) => ({
+      "@type": "City",
+      name,
+      containedInPlace: { "@type": "State", name: region },
+    })),
+    { "@type": "AdministrativeArea", name: "Hampton Roads" },
+  ];
+}
+
+function sameAsLinks(settings: SiteSettings): string[] {
+  const seen = new Set<string>();
+  const links: string[] = [];
+  for (const value of [
+    settings.googleReviewUrl || GOOGLE_REVIEW_URL,
+    settings.social.googleBusiness,
+    settings.social.facebook,
+    settings.social.instagram,
+  ]) {
+    const href = httpHref(value);
+    if (!href || seen.has(href)) continue;
+    seen.add(href);
+    links.push(href);
+  }
+  if (!seen.has(GOOGLE_REVIEW_URL)) links.unshift(GOOGLE_REVIEW_URL);
+  return links;
+}
+
+function businessImage(settings: SiteSettings) {
+  const logo = settings.logo?.src ? absoluteUrl(settings.logo.src) : absoluteUrl("/favicon.svg");
+  const image = settings.seo.ogImage?.src
+    ? absoluteUrl(settings.seo.ogImage.src)
+    : absoluteUrl("/og.jpg");
+  return { logo, image };
+}
+
 export function organizationJsonLd(settings: SiteSettings) {
-  const phone = realValue(settings.phone);
-  const email = realValue(settings.email);
-  const address = realValue(settings.address);
+  const phone = realValue(settings.phone) || PUBLIC_PHONE;
+  const email = realValue(settings.email) || PUBLIC_EMAIL;
+  const { logo, image } = businessImage(settings);
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name: settings.businessName,
-    url: SITE_URL,
+    url: ORIGIN,
+    logo,
+    image,
     email,
     telephone: phone,
-    address: address
-      ? { "@type": "PostalAddress", streetAddress: address }
-      : undefined,
+    sameAs: sameAsLinks(settings),
   };
 }
 
@@ -76,38 +136,60 @@ export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${ORIGIN}/#website`,
     name: SITE_NAME,
-    url: SITE_URL,
+    url: ORIGIN,
+    publisher: { "@id": ORGANIZATION_ID },
   };
 }
 
 export function localBusinessJsonLd(settings: SiteSettings) {
-  const phone = realValue(settings.phone);
-  const email = realValue(settings.email);
-  const address = realValue(settings.address);
-  const data: Record<string, unknown> = {
+  const phone = realValue(settings.phone) || PUBLIC_PHONE;
+  const email = realValue(settings.email) || PUBLIC_EMAIL;
+  const { logo, image } = businessImage(settings);
+  return {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "ProfessionalService"],
+    "@type": ["CleaningService", "LocalBusiness"],
+    "@id": BUSINESS_ID,
     name: settings.businessName,
-    url: SITE_URL,
-    areaServed: [
-      { "@type": "City", name: "Virginia Beach" },
-      { "@type": "City", name: "Norfolk" },
-      { "@type": "City", name: "Chesapeake" },
-      { "@type": "City", name: "Suffolk" },
-      { "@type": "City", name: "Hampton" },
-      { "@type": "City", name: "Newport News" },
-      { "@type": "City", name: "Williamsburg" },
-      "Hampton Roads",
-    ],
+    url: ORIGIN,
+    logo,
+    image,
+    telephone: phone,
+    email,
+    parentOrganization: { "@id": ORGANIZATION_ID },
+    areaServed: areaServedJsonLd(),
+    sameAs: sameAsLinks(settings),
     priceRange: "Quoted after intake",
   };
-  if (phone) data.telephone = phone;
-  if (email) data.email = email;
-  if (address) {
-    data.address = { "@type": "PostalAddress", streetAddress: address };
-  }
-  return data;
+}
+
+export function serviceJsonLd(service: Service) {
+  const url = absoluteUrl(`/services/${service.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: service.name,
+    serviceType: service.name,
+    description: service.shortDescription || service.seo.description,
+    url,
+    provider: { "@id": BUSINESS_ID },
+    areaServed: areaServedJsonLd(),
+  };
+}
+
+export function breadcrumbJsonLd(items: { name: string; href: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.href),
+    })),
+  };
 }
 
 export function faqJsonLd(faqs: { question: string; answer: string }[]) {

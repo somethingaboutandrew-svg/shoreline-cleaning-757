@@ -2,16 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { Container, Section } from "@/components/site/container";
 import { CtaBanner } from "@/components/site/cta-banner";
 import { FaqList } from "@/components/site/faq-list";
+import { JsonLd } from "@/components/site/json-ld";
+import { ServiceOverview } from "@/components/site/service-overview";
 import { Button } from "@/components/ui/button";
 import { getFaqs, getService, getServices, getSettings } from "@/lib/content";
-import { buildMetadata } from "@/lib/seo";
+import { relatedServicesFor } from "@/lib/content/related-services";
+import { buildMetadata, serviceJsonLd } from "@/lib/seo";
+
+// Unknown slugs are resolved on demand (see middleware) so a Sanity publish does not wait on a deploy.
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const services = await getServices();
-  return services.map((s) => ({ slug: s.slug }));
+  return services.map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({
@@ -21,7 +28,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const [service, settings] = await Promise.all([getService(slug), getSettings()]);
-  if (!service) return {};
+  if (!service) notFound();
   return buildMetadata({
     seo: service.seo,
     path: `/services/${service.slug}`,
@@ -30,27 +37,40 @@ export async function generateMetadata({
   });
 }
 
-export default async function ServiceDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [service, allFaqs] = await Promise.all([getService(slug), getFaqs()]);
+  const [service, allFaqs, services] = await Promise.all([
+    getService(slug),
+    getFaqs(),
+    getServices(),
+  ]);
   if (!service) notFound();
-  const related = allFaqs.filter((f) => service.relatedFaqIds?.includes(f.id));
+  const related = allFaqs.filter((faq) => service.relatedFaqIds?.includes(faq.id));
+  const relatedServices = relatedServicesFor(service.slug, services);
 
   return (
     <>
+      <JsonLd data={serviceJsonLd(service)} />
       <section className="border-b border-border bg-white">
         <Container className="grid gap-8 py-12 lg:grid-cols-2 lg:items-center">
           <div>
+            <Breadcrumbs
+              className="mb-4"
+              items={[
+                { name: "Home", href: "/" },
+                { name: "Services", href: "/services" },
+                { name: service.name, href: `/services/${service.slug}` },
+              ]}
+            />
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-aqua">Service</p>
             <h1 className="mt-3 text-4xl sm:text-5xl">{service.name}</h1>
             <p className="mt-4 text-lg text-muted">{service.shortDescription}</p>
             <p className="mt-3 text-sm leading-relaxed text-muted">
               Available in Virginia Beach and across the 757. See our{" "}
-              <Link href="/service-areas" className="font-semibold text-navy underline decoration-aqua/40 underline-offset-4">
+              <Link
+                href="/service-areas"
+                className="font-semibold text-navy underline decoration-aqua/40 underline-offset-4"
+              >
                 service areas
               </Link>
               .
@@ -78,8 +98,8 @@ export default async function ServiceDetailPage({
         <Container className="grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <h2 className="text-3xl">Overview</h2>
-            <p className="mt-4 text-base leading-relaxed text-muted">{service.overview}</p>
-            <h3 className="mt-10 text-2xl">What's included</h3>
+            <ServiceOverview text={service.overview} />
+            <h3 className="mt-10 text-2xl">What&apos;s included</h3>
             <ul className="mt-4 space-y-2 text-sm text-ink">
               {service.included.map((item) => (
                 <li key={item} className="rounded-xl bg-white px-4 py-3 shadow-card">
@@ -112,7 +132,7 @@ export default async function ServiceDetailPage({
             <div className="rounded-[20px] bg-navy p-6 text-foam">
               <h2 className="text-2xl text-foam">Get a quote</h2>
               <p className="mt-2 text-sm text-sky">
-                No prices online. Submit a short intake and we'll follow up by call, text, or email.
+                Every quote is based on your space. Submit a short intake and we&apos;ll follow up.
               </p>
               <Link
                 href="/contact"
@@ -124,6 +144,28 @@ export default async function ServiceDetailPage({
           </aside>
         </Container>
       </Section>
+      {relatedServices.length ? (
+        <Section className="bg-white">
+          <Container>
+            <h2 className="text-3xl">Related services</h2>
+            <ul className="mt-6 grid gap-4 md:grid-cols-3">
+              {relatedServices.map((item) => (
+                <li key={item.slug}>
+                  <Link
+                    href={`/services/${item.slug}`}
+                    className="block h-full rounded-[20px] bg-foam p-5 shadow-card"
+                  >
+                    <span className="font-display text-xl text-navy">{item.name}</span>
+                    <span className="mt-2 block text-sm leading-relaxed text-muted">
+                      {item.shortDescription}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      ) : null}
       {related.length ? (
         <Section className="bg-white">
           <Container>
